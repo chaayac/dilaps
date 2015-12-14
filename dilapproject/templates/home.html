@@ -63,59 +63,55 @@
 		    </table>
 <!-- this part needs to be repeatable -->
 			{% for j in jobs %}
-			<div class="span4 collapse-group">
-				<div class="collapse">
-					<table class="table" style="table-layout:fixed; margin: 0">
-					    <col width="9" />
-					    <col width="22" />
-					    <col width="22" />
-					    <col width="44" />
-						<tr data-toggle="collapse" data-target="#viewdetails{{j.jobnumber}}">
-					        <td>
-					        <b>
-					        <form method="POST" style="form-inline">
-					        	{% csrf_token %}        
-								<input type="hidden" name="delete" class="form-control" value="{{ j.jobnumber }}">
-								<input type="submit" name="delete_job" style="color: red; background-color: white; margin: 0; padding: 0;" class="btn" value="(-)">
-					        {{j.jobnumber}}</b>
-							</form>
-					        </td>
-					        <td>{{j.client}}</td>
-					        <td>
-					        	{% if j.latitude %}
-					        		<a target="_blank" href="http://maps.googleapis.com/maps/api/staticmap?center={{ j.latitude }},{{ j.longitude }}&size=600x600&zoom=18&sensor=false&maptype=satellite">{{j.address}} {{j.postcode}}</a>
-					        	{% else %}
-					        		{{ j.address }}
-					        	{% endif %}
-					        </td>
-					        <td>{{j.notes}}</td> 
-					    </tr>
-				    </table>
+			<table class="table" style="table-layout:fixed; margin: 0">
+			    <col width="9" />
+			    <col width="22" />
+			    <col width="22" />
+			    <col width="44" />
+				<tr data-toggle="collapse" data-target="#viewdetails{{j.jobnumber}}">
+			        <td>
+			        <b>
+			        <form method="POST" style="form-inline">
+			        	{% csrf_token %}        
+						<input type="hidden" name="delete" class="form-control" value="{{ j.jobnumber }}">
+						<input type="submit" name="delete_job" style="color: red; background-color: white; margin: 0; padding: 0;" class="btn" value="(-)">
+			        {{j.jobnumber}}</b>
+					</form>
+			        </td>
+			        <td>{{j.client}}</td>
+			        <td>
+			        	{% if j.latitude %}
+			        		<a target="_blank" href="http://maps.googleapis.com/maps/api/staticmap?center={{ j.latitude }},{{ j.longitude }}&size=600x600&zoom=18&sensor=false&maptype=satellite">{{j.address}} {{j.postcode}}</a>
+			        	{% else %}
+			        		{{ j.address }}
+			        	{% endif %}
+			        </td>
+			        <td>{{j.notes}}</td> 
+			    </tr>
+		    </table>
 
-				    <div class="container">
-					    <div class="span4 collapse-group">
-					        <div class="collapse" style="margin:0" id="viewdetails{{j.jobnumber}}">
-					        	<table class="table" id="tableX">
-						        	<col width="33" />
-						    		<col width="33" />
-						    		<col width="33" />
-									<p><span style="float:left"><i>Last Modifed: {{j.timestamp}}</i></span></p>
-									<thead>
-										<th>Council Assets</th>
-										<th>Neighbouring Properties</th>
-										<th>Letters</th>
-									</thead>
-					        		<tr>
-								        <td>{{j.councilassets}}</td>
-									    <td>{{j.neighbours}}</td>
-										<td>{{j.letters}}</td>
-									</tr>
-								</table>
-					    	</div>
-					    </div>
-				    </div>
-				</div>
-			</div>
+		    <div class="container">
+			    <div class="span4 collapse-group">
+			        <div class="collapse" style="margin:0" id="viewdetails{{j.jobnumber}}">
+			        	<table class="table" id="tableX">
+				        	<col width="33" />
+				    		<col width="33" />
+				    		<col width="33" />
+							<p><span style="float:left"><i>Last Modifed: {{j.timestamp}}</i></span></p>
+							<thead>
+								<th>Council Assets</th>
+								<th>Neighbouring Properties</th>
+								<th>Letters</th>
+							</thead>
+			        		<tr>
+						        <td>{{j.councilassets}}</td>
+							    <td>{{j.neighbours}}</td>
+								<td>{{j.letters}}</td>
+							</tr>
+						</table>
+			    	</div>
+			    </div>
+		    </div>
 		    {% endfor %}
 <!-- end repeatable part -->
 
