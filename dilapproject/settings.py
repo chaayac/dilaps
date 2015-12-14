@@ -92,7 +92,7 @@ DATABASES['default'] = dj_database_url.config()
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Australia/Brisbane'
+TIME_ZONE = 'Australia/Sydney'
 
 USE_I18N = True
 
