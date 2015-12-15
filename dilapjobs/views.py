@@ -16,7 +16,6 @@ def index(request):
             'jobs': job.objects.all().order_by('-timestamp')
         })
 
-
     if 'edit_job' in request.POST:
     
         #do some stuff -- pop up a modal to edit stuff?
