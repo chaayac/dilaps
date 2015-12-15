@@ -69,12 +69,18 @@
 			    <col width="44" />
 				<tr data-toggle="collapse" data-target="#viewdetails{{j.jobnumber}}">
 			        <td>
-			        <b>
 			        <form method="POST" style="form-inline">
 			        	{% csrf_token %}        
-						<input type="hidden" name="delete" class="form-control" value="{{ j.jobnumber }}">
-						<input type="submit" name="delete_job" style="color: red; background-color: white; margin: 0; padding: 0;" class="btn" value="(-)">
-			        {{j.jobnumber}}</b>
+						<div class="dropdown">
+  							<button class="btn dropdown-toggle" style="background-color: Transparent; padding: 0; margin: 0" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    						<span class="caret"></span>
+  							<b>{{j.jobnumber}}</b></button>
+						  	<ul class="dropdown-menu" style="min-width: 0" aria-labelledby="dropdownMenu1">
+						  		<input type="hidden" name="change" class="form-control" value="{{ j.jobnumber }}">
+							    <li><a><input type="submit" class="btn" style="background-color: Transparent" name="edit_job" value="Edit"></a></li>
+							    <li><a><input type="submit" class="btn" style="background-color: Transparent" name="delete_job" value="Delete"></a></li>
+						  	</ul>
+						</div>	
 					</form>
 			        </td>
 			        <td>{{j.client}}</td>
@@ -96,7 +102,7 @@
 				        	<col width="33" />
 				    		<col width="33" />
 				    		<col width="33" />
-							<p><span style="float:left"><i>Last Modifed: {{j.timestamp}}</i></span></p>
+							<p><span style="float:left"><i>Created: {{j.timestamp}}</i></span></p>
 							<thead>
 								<th>Council Assets</th>
 								<th>Neighbouring Properties</th>

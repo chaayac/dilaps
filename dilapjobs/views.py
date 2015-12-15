@@ -7,11 +7,19 @@ import geocoder
 # Create your views here.
 def index(request):
     
+    if 'edit_job' in request.POST:
+    
+        #do some stuff -- pop up a modal to edit stuff?
+        
+        return render(request, 'home.html', {
+            'jobs': job.objects.all().order_by('-timestamp')
+        })
+
     if 'delete_job' in request.POST:
         
         cursor = connection.cursor()
 
-        cursor.execute("DELETE FROM dilapjobs_job WHERE jobnumber = %s", [request.POST['delete']])
+        cursor.execute("DELETE FROM dilapjobs_job WHERE jobnumber = %s", [request.POST['change']])
         
         return render(request, 'home.html', {
             'jobs': job.objects.all().order_by('-timestamp')
