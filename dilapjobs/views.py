@@ -13,7 +13,7 @@ def index(request):
         cursor.execute("UPDATE dilapjobs_job SET status = 'Complete' WHERE jobnumber = %s", [request.POST['change']])
         
         return render(request, 'home.html', {
-            'jobs': job.objects.all().order_by('-status', '-timestamp')
+            'jobs': job.objects.all().order_by('status', '-timestamp')
         })
 
     if 'edit_job' in request.POST:
