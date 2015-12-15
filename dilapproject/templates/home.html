@@ -67,7 +67,11 @@
 			    <col width="22" />
 			    <col width="22" />
 			    <col width="44" />
-				<tr data-toggle="collapse" data-target="#viewdetails{{j.jobnumber}}">
+			    {% if j.status == "Complete" %}
+					<tr data-toggle="collapse" data-target="#viewdetails{{j.jobnumber}}" style="background-color: green">
+				{% else %}
+					<tr data-toggle="collapse" data-target="#viewdetails{{j.jobnumber}}">
+				{% endif %}
 			        <td>
 			        <form method="POST" style="form-inline">
 			        	{% csrf_token %}        
@@ -79,6 +83,7 @@
 						  		<input type="hidden" name="change" class="form-control" value="{{ j.jobnumber }}">
 							    <li><a><input type="submit" class="btn" style="background-color: Transparent" name="edit_job" value="Edit"></a></li>
 							    <li><a><input type="submit" class="btn" style="background-color: Transparent" name="delete_job" value="Delete"></a></li>
+								<li><a><input type="submit" class="btn" style="background-color: Transparent" name="complete_job" value="Complete"></a></li>
 						  	</ul>
 						</div>	
 					</form>

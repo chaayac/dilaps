@@ -18,5 +18,7 @@ class job(models.Model):
 	longitude = models.TextField(default='', null=True)
 	postcode = models.TextField(default='', null=True)
 
+	status = models.TextField(default='Incomplete')
+
 	def __str__(self):
 		return self.jobnumber

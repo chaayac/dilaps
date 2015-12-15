@@ -7,6 +7,16 @@ import geocoder
 # Create your views here.
 def index(request):
     
+    if 'complete_job' in request.POST:
+        cursor = connection.cursor()
+
+        cursor.execute("UPDATE dilapjobs_job SET status = 'Complete' WHERE jobnumber = %s", [request.POST['change']])
+        
+        return render(request, 'home.html', {
+            'jobs': job.objects.all().order_by('-timestamp')
+        })
+
+
     if 'edit_job' in request.POST:
     
         #do some stuff -- pop up a modal to edit stuff?
