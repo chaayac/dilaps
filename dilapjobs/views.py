@@ -19,7 +19,7 @@ def index(request):
 
     if 'search_val' in request.POST:
         cursor = connection.cursor()
-        query = "SELECT * FROM dilapjobs_job WHERE jobnumber LIKE \'%%%s%%\' OR address LIKE \'%%%s%%\' OR notes LIKE \'%%%s%%\' OR letters LIKE \'%%%s%%\' OR neighbours LIKE \'%%%s%%\' OR councilassets LIKE \'%%%s%%\' OR client LIKE \'%%%s%%\'" % (request.POST['search_val'], request.POST['search_val'], request.POST['search_val'], request.POST['search_val'], request.POST['search_val'], request.POST['search_val'], request.POST['search_val'])
+        query = "SELECT * FROM dilapjobs_job WHERE UPPER(jobnumber) LIKE \'%%%s%%\' OR UPPER(address) LIKE \'%%%s%%\' OR UPPER(notes) LIKE \'%%%s%%\' OR UPPER(letters) LIKE \'%%%s%%\' OR UPPER(neighbours) LIKE \'%%%s%%\' OR UPPER(councilassets) LIKE \'%%%s%%\' OR UPPER(client) LIKE \'%%%s%%\'" % (request.POST['search_val'].upper(), request.POST['search_val'].upper(), request.POST['search_val'].upper(), request.POST['search_val'].upper(), request.POST['search_val'].upper(), request.POST['search_val'].upper(), request.POST['search_val'].upper())
         cursor.execute(query)
         rows = cursor.fetchall()
         results = []
