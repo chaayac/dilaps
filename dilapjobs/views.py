@@ -26,7 +26,7 @@ def index(request):
         cursor = connection.cursor()
         cursor.execute("UPDATE dilapjobs_job SET timestamp = %s WHERE jobnumber = %s", [timezone.now(), request.POST['change']])
 
-        cursor.execute("SELECT * FROM dilapjobs_job WHERE jobnumber = %s", request.POST['change'])
+        cursor.execute("SELECT * FROM dilapjobs_job WHERE jobnumber = %s", [request.POST['change']])
         rows = cursor.fetchall()
         
         for row in rows:
