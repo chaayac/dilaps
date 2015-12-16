@@ -24,9 +24,16 @@ def index(request):
 
     if 'complete_job' in request.POST:
         cursor = connection.cursor()
-
-        cursor.execute("UPDATE dilapjobs_job SET status = 'Complete' WHERE jobnumber = %s", [request.POST['change']])
         cursor.execute("UPDATE dilapjobs_job SET timestamp = %s WHERE jobnumber = %s", [timezone.now(), request.POST['change']])
+
+        cursor.execute("SELECT * FROM dilapjobs_job WHERE jobnumber = %s", request.POST['change'])
+        rows = cursor.fetchall()
+        
+        for row in rows:
+            if row[13] == 'Complete':
+                cursor.execute("UPDATE dilapjobs_job SET status = 'Incomplete' WHERE jobnumber = %s", [request.POST['change']])
+            else:
+                cursor.execute("UPDATE dilapjobs_job SET status = 'Complete' WHERE jobnumber = %s", [request.POST['change']])            
 
         return render(request, 'home.html', {
             'jobs': job.objects.all().order_by('-status', '-timestamp'),
