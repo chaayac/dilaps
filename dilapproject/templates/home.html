@@ -107,7 +107,11 @@
 				        	<col width="33" />
 				    		<col width="33" />
 				    		<col width="33" />
-							<p><span style="float:left"><i>Created: {{j.timestamp}}</i></span></p>
+				    		{% if j.status == "Complete" %}
+								<p><span style="float:left"><i>Completed on {{j.timestamp}}</i></span></p>
+							{% else %}
+								<p><span style="float:left"><i>Last Modified on {{j.timestamp}}</i></span></p>
+							{% endif %}
 							<thead>
 								<th>Council Assets</th>
 								<th>Neighbouring Properties</th>
