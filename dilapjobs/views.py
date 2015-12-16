@@ -1,12 +1,27 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from dilapjobs.models import job
+from dilapjobs.models import job, logs
 from django.utils import timezone
 from django.db import connection
 import geocoder
 # Create your views here.
 def index(request):
     
+    if 'add_log' in request.POST:
+        l = logs(
+        
+            logtext=request.POST['logtext'],
+            timestamp=timezone.now()
+        )
+
+        l.save()
+
+    return render(request, 'home.html', {
+            'jobs': job.objects.all().order_by('-status', '-timestamp'),
+            'logs': logs.objects.all().order_by('-timestamp')
+        })
+
+
     if 'complete_job' in request.POST:
         cursor = connection.cursor()
 
@@ -14,7 +29,8 @@ def index(request):
         cursor.execute("UPDATE dilapjobs_job SET timestamp = %s WHERE jobnumber = %s", [timezone.now(), request.POST['change']])
 
         return render(request, 'home.html', {
-            'jobs': job.objects.all().order_by('-status', '-timestamp')
+            'jobs': job.objects.all().order_by('-status', '-timestamp'),
+            'logs': logs.objects.all().order_by('-timestamp')
         })
 
     if 'edit_job' in request.POST:
@@ -22,7 +38,8 @@ def index(request):
         #do some stuff -- pop up a modal to edit stuff?
         
         return render(request, 'home.html', {
-            'jobs': job.objects.all().order_by('-status', '-timestamp')
+            'jobs': job.objects.all().order_by('-status', '-timestamp'),
+            'logs': logs.objects.all().order_by('-timestamp')
         })
 
     if 'delete_job' in request.POST:
@@ -32,7 +49,8 @@ def index(request):
         cursor.execute("DELETE FROM dilapjobs_job WHERE jobnumber = %s", [request.POST['change']])
         
         return render(request, 'home.html', {
-            'jobs': job.objects.all().order_by('-status', '-timestamp')
+            'jobs': job.objects.all().order_by('-status', '-timestamp'),
+            'logs': logs.objects.all().order_by('-timestamp')
         })
 
     if 'search_val' in request.POST:
@@ -60,7 +78,8 @@ def index(request):
             results.append(d)
 
         return render(request, 'home.html', {
-            'jobs': results
+            'jobs': results,
+            'logs': logs.objects.all().order_by('-timestamp')
         })
 
 
@@ -86,5 +105,6 @@ def index(request):
         j.save()
 
     return render(request, 'home.html', {
-            'jobs': job.objects.all().order_by('-status', '-timestamp')
+            'jobs': job.objects.all().order_by('-status', '-timestamp'),
+            'logs': logs.objects.all().order_by('-timestamp')
         })

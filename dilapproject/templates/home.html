@@ -15,10 +15,38 @@
 		<link rel="stylesheet" href="{% static 'dilapjobs/css/signin.css' %}" />
 		<link rel="stylesheet" href="{% static 'dilapjobs/css/bootstrap.min.css' %}" />
 		<link rel="stylesheet" href="{% static 'dilapjobs/css/bootstrap-theme.css' %}" />
+		<link rel="stylesheet" href="{% static 'dilapjobs/css/navbar.css' %}" />
+
 
 	</head>
 	<!-- end header -->	
 	<body style="background-color: white">
+		<div class="area"></div><nav class="main-menu">
+			<ul>
+                <li>
+                   <i class="fa fa-info fa-2x"></i>
+                    <span class="nav-text">
+                        <form class="form-inline" method="POST">
+                        	{% csrf_token %}
+                        	<input type="text" class="form-control" style="width: 150px" name="logtext">
+                        	<input type="submit" class="btn btn-default" style="" name="add_log" value="+">
+                        </form>
+                    </span>
+                </li>
+            </ul>
+            
+	        {% for l in logs %}
+	            <ul>
+	            	<li>
+	            		<a>
+	            			<i class="fa" style="font-size: 12px">{{ l.timestamp|date:"d M Y" }}</i>
+	            			<span class="nav-text">{{ l.logtext }}</span>
+	            		</a>
+	        		</li>
+	       		</ul>
+	       	{% endfor %}
+        </nav>
+
 		<div class="container" style="background-color: rgba(255,255,255,0.8)">
 			<center style="padding-top: 0px">
 				<img src="https://media.licdn.com/mpr/mpr/shrink_100_100/AAEAAQAAAAAAAALuAAAAJGY3M2Y5OTk4LTZlMDYtNDFjMy05NTJmLTQwNmYzNWQyM2I3MQ.png">

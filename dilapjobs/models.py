@@ -22,3 +22,10 @@ class job(models.Model):
 
 	def __str__(self):
 		return self.jobnumber
+
+class logs(models.Model):
+	timestamp = models.DateTimeField()
+	logtext = models.TextField(default='', null=True)
+
+	def __str__(self):
+		return self.logtext
