@@ -16,10 +16,10 @@ def index(request):
 
         l.save()
 
-    return render(request, 'home.html', {
-            'jobs': job.objects.all().order_by('-status', '-timestamp'),
-            'logs': logs.objects.all().order_by('-timestamp')
-        })
+        return render(request, 'home.html', {
+                'jobs': job.objects.all().order_by('-status', '-timestamp'),
+                'logs': logs.objects.all().order_by('-timestamp')
+            })
 
 
     if 'complete_job' in request.POST:
