@@ -40,10 +40,30 @@ def index(request):
             'logs': logs.objects.all().order_by('-timestamp')
         })
 
-    if 'edit_job' in request.POST:
-    
-        #do some stuff -- pop up a modal to edit stuff?
+    if 'finishedit' in request.POST:
+        cursor = connection.cursor()
+
+        cursor.execute("DELETE FROM dilapjobs_job WHERE jobnumber = %s", [request.POST['old_jobnumber_e']])
         
+        locator = geocoder.google(request.POST['address_e'] + ", Australia")
+
+        j = job(
+            
+            jobnumber=request.POST['jobnumber_e'], 
+            address=request.POST['address_e'],
+            timestamp=timezone.now(),
+            client=request.POST['client_e'],
+            notes=request.POST['notes_e'],
+            councilassets=request.POST['councilassets_e'],
+            neighbours=request.POST['neighbours_e'],
+            letters=request.POST['letters_e'],
+            latitude=locator.lat,
+            longitude=locator.lng,
+            postcode=locator.postal,
+        )
+
+        j.save()
+
         return render(request, 'home.html', {
             'jobs': job.objects.all().order_by('-status', '-timestamp'),
             'logs': logs.objects.all().order_by('-timestamp')

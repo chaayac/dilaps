@@ -108,8 +108,11 @@
   							<b>{{j.jobnumber}}</b></button>
 						  	<ul class="dropdown-menu" style="min-width: 0" aria-labelledby="dropdownMenu1">
 						  		<input type="hidden" name="change" class="form-control" value="{{ j.jobnumber }}">
-							    <li><a><input type="submit" class="btn" style="width: 100; background-color: Transparent; font-size: 11px; padding: 0; margin: 0" name="edit_job" value="Edit"></a></li>
+							    
+							    <li><a><input type="button" data-toggle="modal" data-target="#editModal" data-letters="{{ j.letters }}" data-councilassets="{{ j.councilassets }}" data-neighbours="{{ j.neighbours }}" data-notes="{{ j.notes }}" data-address="{{ j.address }}" data-client="{{ j.client }}" data-id="{{ j.jobnumber }}" class="btn" style="width: 100; background-color: Transparent; font-size: 11px; padding: 0; margin: 0" name="edit_job" value="Edit"></a></li>
+							    
 							    <li><a><input type="submit" class="btn" style="width: 100; background-color: Transparent; font-size: 11px; padding: 0; margin: 0" name="delete_job" value="Delete"></a></li>
+								
 								{% if j.status == "Complete" %}
 									<li><a><input type="submit" class="btn" style="width: 100; background-color: Transparent; font-size: 11px; padding: 0; margin: 0" name="complete_job" value="Revoke Completion"></a></li>
 						  		{% else %}
@@ -162,7 +165,38 @@
 
 		</div> <!-- /container -->
 	</body>
-
+	<div id="editModal" class="modal fade" role="dialog">
+	    <div class="modal-dialog">
+	        <!-- Modal content-->
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal">&times;</button>
+	                <h4 class="modal-title">Edit</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form role="editjob" method="POST" style="padding-bottom: 20px">
+	                    <div>
+				            <form class="form-inline" style="padding-bottom: 20px" method="POST">     
+								{% csrf_token %}
+								<input type="hidden" name="old_jobnumber_e" value="{{ j.jobnumber }}"></td>
+						      	Job Number: <input type="text" name="jobnumber_e" style="width: 100%"class="form-control" placeholder="######" required autofocus></td>
+						      	Client: <input type="text" name="client_e" style="width: 100%" class="form-control" placeholder="Customer Name" required autofocus></td>
+						        Address: <input type="text" name="address_e" style="width: 100%" class="form-control" placeholder="Address" required></td>
+								Council Assets: <input type="text" name="councilassets_e" style="width: 100%" class="form-control" placeholder="Enter Council Assets seperated by a semicolon (';')"></td>
+						       	Neighbouring Properties: <input type="text" name="neighbours_e" style="width: 100%" class="form-control" placeholder="Enter Neighbouring Properties seperated by a semicolon (';')"></td>
+						       	Letters: <input type="text" name="letters_e" style="width: 100%" class="form-control" placeholder="Letters"></td>        
+						       	Notes: <input type="text" name="notes_e" style="width: 100%" class="form-control" placeholder="Some notes on the job..."></td>
+	                        	<input type="submit" style="width:100%; height:10%;" name="finishedit" value="Finish Editing" class="btn btn-primary">
+						    </form>
+	                    </div>
+	                </form>
+	            </div>
+	            <div class="modal-footer">
+	            	<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+	            </div>
+	        </div>
+	    </div>
+    </div>
 	<!-- Bootstrap core JavaScript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
@@ -195,5 +229,25 @@
 	            $this.append(this);
 	        });
 	    });
+
+		$('#editModal').on('show.bs.modal', function(e) {
+		    //get data-id attribute of the clicked element
+		    var jobNum = $(e.relatedTarget).data('id');
+		    var client = $(e.relatedTarget).data('client');
+		    var address = $(e.relatedTarget).data('address');
+		    var notes = $(e.relatedTarget).data('notes');
+		    var councilassets = $(e.relatedTarget).data('councilassets');
+		    var neighbours = $(e.relatedTarget).data('neighbours');
+		    var letters = $(e.relatedTarget).data('letters');
+
+			$(e.currentTarget).find('input[name="jobnumber_e"]').val(jobNum);
+			$(e.currentTarget).find('input[name="old_jobnumber_e"]').val(jobNum);
+			$(e.currentTarget).find('input[name="client_e"]').val(client);
+			$(e.currentTarget).find('input[name="address_e"]').val(address);
+			$(e.currentTarget).find('input[name="notes_e"]').val(notes);
+			$(e.currentTarget).find('input[name="councilassets_e"]').val(councilassets);
+			$(e.currentTarget).find('input[name="neighbours_e"]').val(neighbours);
+			$(e.currentTarget).find('input[name="letters_e"]').val(letters);
+    	});
 	</script>
 </html>
