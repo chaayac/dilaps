@@ -82,8 +82,10 @@ def index(request):
 
     if 'search_val' in request.POST:
         cursor = connection.cursor()
-        query = "SELECT * FROM dilapjobs_job WHERE UPPER(jobnumber) LIKE \'%%%s%%\' OR UPPER(address) LIKE \'%%%s%%\' OR UPPER(notes) LIKE \'%%%s%%\' OR UPPER(letters) LIKE \'%%%s%%\' OR UPPER(neighbours) LIKE \'%%%s%%\' OR UPPER(councilassets) LIKE \'%%%s%%\' OR UPPER(client) LIKE \'%%%s%%\'" % (request.POST['search_val'].upper(), request.POST['search_val'].upper(), request.POST['search_val'].upper(), request.POST['search_val'].upper(), request.POST['search_val'].upper(), request.POST['search_val'].upper(), request.POST['search_val'].upper())
-        cursor.execute(query)
+        org_term = request.POST['search_val']
+        term = '%' + org_term + '%'
+        term = term.upper()
+        cursor.execute("SELECT * FROM dilapjobs_job WHERE UPPER(jobnumber) LIKE %s OR UPPER(address) LIKE %s OR UPPER(notes) LIKE %s OR UPPER(letters) LIKE %s OR UPPER(neighbours) LIKE %s OR UPPER(councilassets) LIKE %s OR UPPER(client) LIKE %s", [term, term, term, term, term, term, term])
         rows = cursor.fetchall()
         results = []
         for row in rows:
@@ -105,6 +107,7 @@ def index(request):
             results.append(d)
 
         return render(request, 'home.html', {
+            'search': org_term,
             'jobs': results,
             'logs': logs.objects.all().order_by('-timestamp')
         })

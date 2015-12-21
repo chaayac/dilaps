@@ -72,7 +72,11 @@
 			       	<input type="submit" name="createjob" style="width: 100%" class="btn btn-primary" value="Add Job"></td>
 			    </form>
 		    </div>
-			
+			{% if search %}
+			<div style="padding-top: 20px">
+				<b>Search results for '{{ search }}'...</b>
+			</div>
+			{% endif %}
 			<table class="table" style="table-layout: fixed; margin: 0; padding-top: 20px">
 			    <col width="9" />
 			    <col width="22" />
