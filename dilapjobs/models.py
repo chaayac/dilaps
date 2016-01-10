@@ -27,6 +27,8 @@ class job(models.Model):
 		return self.neighbours.split(';')
 	def getLetters(self):
 		return self.letters.split(';')
+	def getCouncilAssets(self):
+		return self.councilassets.split(';')
 
 
 class logs(models.Model):

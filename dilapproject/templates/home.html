@@ -7,31 +7,32 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>ACE - Dilapidation Reporting</title>
-<script language="javascript">
-	function add(type){
+		<script language="javascript">
+			function add(type){
 
-		var element = document.createElement("input");
-		
-		element.setAttribute("type", "text");
-		element.setAttribute("placeholder", "Enter Neighbouring Property");
-		element.setAttribute("name", "neighbours[]");
-		element.setAttribute("class", "form-control");
-		element.setAttribute("style", "width: 43%; margin-right: 3.5px");
+				var element = document.createElement("input");
+				
+				element.setAttribute("type", "text");
+				element.setAttribute("placeholder", "Enter Neighbouring Property");
+				element.setAttribute("name", "neighbours[]");
+				element.setAttribute("class", "form-control");
+				element.setAttribute("style", "width: 43%; margin-right: 3.5px");
 
-		var elementL = document.createElement("input");
-		
-		elementL.setAttribute("type", "text");
-		elementL.setAttribute("placeholder", "Enter Letters");
-		elementL.setAttribute("name", "letters[]");
-		elementL.setAttribute("class", "form-control");
-		elementL.setAttribute("style", "width: 43%");
+				var elementL = document.createElement("input");
+				
+				elementL.setAttribute("type", "text");
+				elementL.setAttribute("placeholder", "Enter Letters");
+				elementL.setAttribute("name", "letters[]");
+				elementL.setAttribute("class", "form-control");
+				elementL.setAttribute("style", "width: 43%");
 
-		var foo = document.getElementById("fooBar");
+				var foo = document.getElementById("fooBar");
 
-		foo.appendChild(element);
-		foo.appendChild(elementL);
-	}
-	</script>
+				foo.appendChild(element);
+				foo.appendChild(elementL);
+			}
+		</script>
+
 		{% load staticfiles %}
 
 		<link rel="stylesheet" href="{% static 'dilapjobs/css/bootstrap.min.css' %}" />
@@ -182,9 +183,9 @@
 								<th>Letters</th>
 							</thead>
 			        		<tr>
-						        <td>{{j.councilassets}}</td>
-							    <td>{% for n in j.getNeighbours %}<div>{{n}}</div>{% endfor %}</td>
-								<td>{% for l in j.getLetters %}<div>{{l}}</div>{% endfor %}</td>
+						        <td>{% for c in j.getCouncilAssets %}<div>{{c}}</div>{% endfor %}</td>
+							    <td>{% for n in j.getNeighbours %}<div style="background-color: {% cycle 'lightblue' 'white' %} ">{{n}}</div>{% endfor %}</td>
+								<td>{% for l in j.getLetters %}<div style="background-color: {% cycle 'lightblue' 'white' %} ">{{l}}</div>{% endfor %}</td>
 							</tr>
 						</table>
 			    	</div>
