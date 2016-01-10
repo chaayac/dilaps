@@ -116,6 +116,11 @@ def index(request):
     if 'createjob' in request.POST:
         
         locator = geocoder.google(request.POST['address'] + ", Australia")
+        
+        neighbours = request.POST.getlist('neighbours[]')
+        neighbours = ';'.join(neighbours)
+        letters = request.POST.getlist('letters[]')
+        letters = ';'.join(letters)
 
         j = job(
             
@@ -125,8 +130,8 @@ def index(request):
             client=request.POST['client'],
             notes=request.POST['notes'],
             councilassets=request.POST['councilassets'],
-            neighbours=request.POST['neighbours'],
-            letters=request.POST['letters'],
+            neighbours=neighbours,
+            letters=letters,
             latitude=locator.lat,
             longitude=locator.lng,
             postcode=locator.postal,

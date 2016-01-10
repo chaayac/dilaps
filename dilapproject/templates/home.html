@@ -7,7 +7,31 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>ACE - Dilapidation Reporting</title>
+<script language="javascript">
+	function add(type){
 
+		var element = document.createElement("input");
+		
+		element.setAttribute("type", "text");
+		element.setAttribute("placeholder", "Enter Neighbouring Property");
+		element.setAttribute("name", "neighbours[]");
+		element.setAttribute("class", "form-control");
+		element.setAttribute("style", "width: 43%; margin-right: 3.5px");
+
+		var elementL = document.createElement("input");
+		
+		elementL.setAttribute("type", "text");
+		elementL.setAttribute("placeholder", "Enter Letters");
+		elementL.setAttribute("name", "letters[]");
+		elementL.setAttribute("class", "form-control");
+		elementL.setAttribute("style", "width: 43%");
+
+		var foo = document.getElementById("fooBar");
+
+		foo.appendChild(element);
+		foo.appendChild(elementL);
+	}
+	</script>
 		{% load staticfiles %}
 
 		<link rel="stylesheet" href="{% static 'dilapjobs/css/bootstrap.min.css' %}" />
@@ -62,14 +86,16 @@
 			<div class="span4 collapse" id="createjobformdiv">
 				<form class="form-inline" style="padding-bottom: 20px" method="POST">     
 					{% csrf_token %}   
-			      	<input type="text" name="jobnumber" style="width: 100%"class="form-control" placeholder="######" required autofocus></td>
-			      	<input type="text" name="client" style="width: 100%" class="form-control" placeholder="Customer Name" required autofocus></td>
-			        <input type="text" name="address" style="width: 100%" class="form-control" placeholder="Address" required></td>
-					<input type="text" name="councilassets" style="width: 100%" class="form-control" placeholder="Enter Council Assets seperated by a semicolon (';')"></td>
-			       	<input type="text" name="neighbours" style="width: 100%" class="form-control" placeholder="Enter Neighbouring Properties seperated by a semicolon (';')"></td>
-			       	<input type="text" name="letters" style="width: 100%" class="form-control" placeholder="Letters"></td>        
-			       	<input type="text" name="notes" style="width: 100%" class="form-control" placeholder="Some notes on the job..."></td>
-			       	<input type="submit" name="createjob" style="width: 100%" class="btn btn-primary" value="Add Job"></td>
+			      	<input type="text" name="jobnumber" style="width: 100%"class="form-control" placeholder="######" required autofocus>
+			      	<input type="text" name="client" style="width: 100%" class="form-control" placeholder="Customer Name" required autofocus>
+			        <input type="text" name="address" style="width: 100%" class="form-control" placeholder="Address" required>
+					<input type="text" name="councilassets" style="width: 100%" class="form-control" placeholder="Enter Council Assets seperated by a semicolon (';')">
+			       	<input type="text" name="neighbours[]" style="width: 43%" class="form-control" placeholder="Enter Neighbouring Property">
+			       	<input type="text" name="letters[]" style="width: 43%" class="form-control" placeholder="Enter Letters">
+			       	<button type="button" class="btn" onclick="add('textbox')">Add Neighbours</button>
+					<span id="fooBar">&nbsp;</span>
+			       	<input type="text" name="notes" style="width: 100%" class="form-control" placeholder="Some notes on the job...">
+			       	<input type="submit" name="createjob" style="width: 100%" class="btn btn-primary" value="Add Job">
 			    </form>
 		    </div>
 			{% if search %}
@@ -157,8 +183,8 @@
 							</thead>
 			        		<tr>
 						        <td>{{j.councilassets}}</td>
-							    <td>{{j.neighbours}}</td>
-								<td>{{j.letters}}</td>
+							    <td>{% for n in j.getNeighbours %}<div>{{n}}</div>{% endfor %}</td>
+								<td>{% for l in j.getLetters %}<div>{{l}}</div>{% endfor %}</td>
 							</tr>
 						</table>
 			    	</div>

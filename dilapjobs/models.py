@@ -23,6 +23,12 @@ class job(models.Model):
 	def __str__(self):
 		return self.jobnumber
 
+	def getNeighbours(self):
+		return self.neighbours.split(';')
+	def getLetters(self):
+		return self.letters.split(';')
+
+
 class logs(models.Model):
 	timestamp = models.DateTimeField()
 	logtext = models.TextField(default='', null=True)
