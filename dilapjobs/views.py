@@ -119,8 +119,15 @@ def index(request):
         
         neighbours = request.POST.getlist('neighbours[]')
         neighbours = ';'.join(neighbours)
+
         letters = request.POST.getlist('letters[]')
-        letters = ';'.join(letters)
+        counter = 0
+        string = ""
+        for l in letters:
+            string += l + ' '
+            counter += 1
+            if (counter % 6 == 0):
+                string += ';'
 
         j = job(
             
@@ -131,7 +138,7 @@ def index(request):
             notes=request.POST['notes'],
             councilassets=request.POST['councilassets'],
             neighbours=neighbours,
-            letters=letters,
+            letters=string,
             latitude=locator.lat,
             longitude=locator.lng,
             postcode=locator.postal,

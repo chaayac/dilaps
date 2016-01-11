@@ -9,6 +9,7 @@
 		<title>ACE - Dilapidation Reporting</title>
 		<script language="javascript">
 			function add(type){
+				var foo = document.getElementById("fooBar");
 
 				var element = document.createElement("input");
 				
@@ -16,23 +17,44 @@
 				element.setAttribute("placeholder", "Enter Neighbouring Property");
 				element.setAttribute("name", "neighbours[]");
 				element.setAttribute("class", "form-control");
-				element.setAttribute("style", "width: 43%; margin-right: 3.5px");
-
-				var elementL = document.createElement("input");
-				
-				elementL.setAttribute("type", "text");
-				elementL.setAttribute("placeholder", "Enter Letters");
-				elementL.setAttribute("name", "letters[]");
-				elementL.setAttribute("class", "form-control");
-				elementL.setAttribute("style", "width: 43%");
-
-				var foo = document.getElementById("fooBar");
+				element.setAttribute("style", "width: 30%; margin-right: 4px");
 
 				foo.appendChild(element);
-				foo.appendChild(elementL);
+				count = 0;
+				while (count < 3){
+
+				var elementl = document.createElement("input");
+
+				elementl.setAttribute("type", "date");
+				elementl.setAttribute("name", "letters[]");
+				elementl.setAttribute("class", "form-control");
+				elementl.setAttribute("style", "width: 14%; margin-right: 4px");
+
+				foo.appendChild(elementl);
+
+
+				var sel = document.createElement("select");
+
+				sel.setAttribute("name", "letters[]");
+				sel.setAttribute("style", "margin-right: 4px")
+				var option1 = document.createElement("option");
+				var option2 = document.createElement("option");
+				var option3 = document.createElement("option");
+				var option0 = document.createElement("option");
+				option0.text = ""
+				option1.text = "RM"
+				option2.text = "AP"
+				option3.text = "HD"
+				sel.add(option0)
+				sel.add(option1)
+				sel.add(option2)
+				sel.add(option3)
+
+				foo.appendChild(sel);
+				count = count + 1;
+				}
 			}
 		</script>
-
 		{% load staticfiles %}
 
 		<link rel="stylesheet" href="{% static 'dilapjobs/css/bootstrap.min.css' %}" />
@@ -91,9 +113,30 @@
 			      	<input type="text" name="client" style="width: 100%" class="form-control" placeholder="Customer Name" required autofocus>
 			        <input type="text" name="address" style="width: 100%" class="form-control" placeholder="Address" required>
 					<input type="text" name="councilassets" style="width: 100%" class="form-control" placeholder="Enter Council Assets seperated by a semicolon (';')">
-			       	<input type="text" name="neighbours[]" style="width: 43%" class="form-control" placeholder="Enter Neighbouring Property">
-			       	<input type="text" name="letters[]" style="width: 43%" class="form-control" placeholder="Enter Letters">
-			       	<button type="button" class="btn" onclick="add('textbox')">Add Neighbours</button>
+			       	<input type="text" name="neighbours[]" style="width: 30%" class="form-control" placeholder="Enter Neighbouring Property">
+			       	
+			       	<input type="date" name="letters[]" style="width: 14%" class="form-control">
+					<select name="letters[]">
+					   	<option value=""></option>
+					   	<option value="RM">RM</option>
+						<option value="AP">AP</option>
+						<option value="HD">HD</option>						
+					</select>
+			       	<input type="date" name="letters[]" style="width: 14%" class="form-control">
+					<select name="letters[]">
+					   	<option value=""></option>
+					   	<option value="RM">RM</option>
+						<option value="AP">AP</option>
+						<option value="HD">HD</option>						
+					</select>
+			       	<input type="date" name="letters[]" style="width: 14%" class="form-control">
+					<select name="letters[]">
+						<option value=""></option>
+					   	<option value="RM">RM</option>
+						<option value="AP">AP</option>
+						<option value="HD">HD</option>						
+					</select>
+			       	<button type="button" class="btn btn-success" style="float:right" onclick="add('textbox')">Add More</button>
 					<span id="fooBar">&nbsp;</span>
 			       	<input type="text" name="notes" style="width: 100%" class="form-control" placeholder="Some notes on the job...">
 			       	<input type="submit" name="createjob" style="width: 100%" class="btn btn-primary" value="Add Job">
