@@ -26,10 +26,11 @@
 
 					var elementl = document.createElement("input");
 
-					elementl.setAttribute("type", "date");
+					elementl.setAttribute("type", "text");
 					elementl.setAttribute("name", "letters[]");
-					elementl.setAttribute("class", "form-control");
+					elementl.setAttribute("class", "form-control datepicker");
 					elementl.setAttribute("style", "width: 14%; margin-right: 4px");
+					elementl.setAttribute("value", "none");
 
 					foo.appendChild(elementl);
 
@@ -128,7 +129,7 @@
 						<option value="AP">AP</option>
 						<option value="HD">HD</option>
 						<option value="STR">STR</option>
-						<option value="EMA">EMA</option>						
+						<option value="EMA">EMA</option>
 					</select>
 			       	<input type="text" name="letters[]" style="width: 14%" class="form-control datepicker" value="none">
 					<select name="letters[]">
