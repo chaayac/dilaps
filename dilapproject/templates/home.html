@@ -6,6 +6,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+
 		<title>ACE - Dilapidation Reporting</title>
 		<script language="javascript">
 			function add(type){
@@ -45,10 +46,14 @@
 					option1.text = "RM"
 					option2.text = "AP"
 					option3.text = "HD"
+					option4.text = "STR"
+					option5.text = "EMA"
 					sel.add(option0)
 					sel.add(option1)
 					sel.add(option2)
 					sel.add(option3)
+					sel.add(option4)
+					sel.add(option5)
 
 					foo.appendChild(sel);
 
@@ -116,26 +121,32 @@
 					<input type="text" name="councilassets" style="width: 100%" class="form-control" placeholder="Enter Council Assets seperated by a semicolon (';')">
 			       	<input type="text" name="neighbours[]" style="width: 30%" class="form-control" placeholder="Enter Neighbouring Property">
 			       	
-			       	<input type="date" name="letters[]" style="width: 14%" class="form-control">
+			       	<input type="text" name="letters[]" style="width: 14%" class="form-control datepicker" value="none">
 					<select name="letters[]">
 					   	<option value=""></option>
 					   	<option value="RM">RM</option>
 						<option value="AP">AP</option>
-						<option value="HD">HD</option>						
+						<option value="HD">HD</option>
+						<option value="STR">STR</option>
+						<option value="EMA">EMA</option>						
 					</select>
-			       	<input type="date" name="letters[]" style="width: 14%" class="form-control">
+			       	<input type="text" name="letters[]" style="width: 14%" class="form-control datepicker" value="none">
 					<select name="letters[]">
 					   	<option value=""></option>
 					   	<option value="RM">RM</option>
 						<option value="AP">AP</option>
-						<option value="HD">HD</option>						
+						<option value="HD">HD</option>	
+						<option value="STR">STR</option>
+						<option value="EMA">EMA</option>						
 					</select>
-			       	<input type="date" name="letters[]" style="width: 14%" class="form-control">
+			       	<input type="text" name="letters[]" style="width: 14%" class="form-control datepicker" value="none">
 					<select name="letters[]">
 						<option value=""></option>
 					   	<option value="RM">RM</option>
 						<option value="AP">AP</option>
-						<option value="HD">HD</option>						
+						<option value="HD">HD</option>
+						<option value="STR">STR</option>
+						<option value="EMA">EMA</option>							
 					</select>
 			       	<button type="button" class="btn btn-success" style="float:right" onclick="add(fooBar)">Add More</button>
 					<span id="fooBar">&nbsp;</span>
@@ -277,6 +288,9 @@
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
 	<script src="{% static 'dilapjobs/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 	<script>
 		$('.row .btn').on('click', function(e) {
 	    e.preventDefault();
@@ -304,6 +318,12 @@
 	            $this.append(this);
 	        });
 	    });
+
+	    $(document).ready(function(){
+   			$(".datepicker").each(function() {
+        		$(this).datepicker();
+    		});
+		});
 
 		$('#editModal').on('show.bs.modal', function(e) {
 		    //get data-id attribute of the clicked element
