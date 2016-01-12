@@ -37,14 +37,14 @@ def index(request):
                 cursor.execute("UPDATE dilapjobs_job SET status = 'Incomplete' WHERE jobnumber = %s", [request.POST['change']])
             else:
                 cursor.execute("UPDATE dilapjobs_job SET status = 'Complete' WHERE jobnumber = %s", [request.POST['change']])            
-
+        
         return render(request, 'home.html', {
             'jobs': job.objects.all().order_by('-status', '-timestamp'),
             'logs': logs.objects.all().order_by('-timestamp')
         })
 
 ######################################################################
-############################ FINISH JOB ##############################
+############################ EDIT JOB ##############################
 
     if 'finishedit' in request.POST:
         cursor = connection.cursor()
@@ -53,17 +53,17 @@ def index(request):
         
         locator = geocoder.google(request.POST['address_e'] + ", Australia")
 
-        neighbours = request.POST.getlist('neighbours[]')
-        neighbours = ';'.join(neighbours)
+        neighbours = request.POST['neighbours_e']
 
-        letters = request.POST.getlist('letters[]')
-        counter = 0
-        string = ""
-        for l in letters:
-            string += l + ' '
-            counter += 1
-            if (counter % 6 == 0):
-                string += ';'
+        letters = request.POST['letters_e']
+        string = letters
+        # counter = 0
+        # string = ""
+        # for l in letters:
+        #     string += l + ' '
+        #     counter += 1
+        #     if (counter % 6 == 0):
+        #         string += ';'
 
         j = job(
             

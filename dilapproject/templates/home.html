@@ -18,40 +18,41 @@
 				element.setAttribute("name", "neighbours[]");
 				element.setAttribute("class", "form-control");
 				element.setAttribute("style", "width: 30%; margin-right: 4px");
-
+				
 				foo.appendChild(element);
 				count = 0;
 				while (count < 3){
 
-				var elementl = document.createElement("input");
+					var elementl = document.createElement("input");
 
-				elementl.setAttribute("type", "date");
-				elementl.setAttribute("name", "letters[]");
-				elementl.setAttribute("class", "form-control");
-				elementl.setAttribute("style", "width: 14%; margin-right: 4px");
+					elementl.setAttribute("type", "date");
+					elementl.setAttribute("name", "letters[]");
+					elementl.setAttribute("class", "form-control");
+					elementl.setAttribute("style", "width: 14%; margin-right: 4px");
 
-				foo.appendChild(elementl);
+					foo.appendChild(elementl);
 
 
-				var sel = document.createElement("select");
+					var sel = document.createElement("select");
 
-				sel.setAttribute("name", "letters[]");
-				sel.setAttribute("style", "margin-right: 4px")
-				var option1 = document.createElement("option");
-				var option2 = document.createElement("option");
-				var option3 = document.createElement("option");
-				var option0 = document.createElement("option");
-				option0.text = ""
-				option1.text = "RM"
-				option2.text = "AP"
-				option3.text = "HD"
-				sel.add(option0)
-				sel.add(option1)
-				sel.add(option2)
-				sel.add(option3)
+					sel.setAttribute("name", "letters[]");
+					sel.setAttribute("style", "margin-right: 4px")
+					var option1 = document.createElement("option");
+					var option2 = document.createElement("option");
+					var option3 = document.createElement("option");
+					var option0 = document.createElement("option");
+					option0.text = ""
+					option1.text = "RM"
+					option2.text = "AP"
+					option3.text = "HD"
+					sel.add(option0)
+					sel.add(option1)
+					sel.add(option2)
+					sel.add(option3)
 
-				foo.appendChild(sel);
-				count = count + 1;
+					foo.appendChild(sel);
+
+					count = count + 1;
 				}
 			}
 		</script>
@@ -136,7 +137,7 @@
 						<option value="AP">AP</option>
 						<option value="HD">HD</option>						
 					</select>
-			       	<button type="button" class="btn btn-success" style="float:right" onclick="add('textbox')">Add More</button>
+			       	<button type="button" class="btn btn-success" style="float:right" onclick="add(fooBar)">Add More</button>
 					<span id="fooBar">&nbsp;</span>
 			       	<input type="text" name="notes" style="width: 100%" class="form-control" placeholder="Some notes on the job...">
 			       	<input type="submit" name="createjob" style="width: 100%" class="btn btn-primary" value="Add Job">
@@ -253,12 +254,12 @@
 				            <form class="form-inline" style="padding-bottom: 20px" method="POST">     
 								{% csrf_token %}
 								<input type="hidden" name="old_jobnumber_e" value="{{ j.jobnumber }}"></td>
-						      	Job Number: <input type="text" name="jobnumber_e" style="width: 100%"class="form-control" placeholder="######" required autofocus></td>
-						      	Client: <input type="text" name="client_e" style="width: 100%" class="form-control" placeholder="Customer Name" required autofocus></td>
-						        Address: <input type="text" name="address_e" style="width: 100%" class="form-control" placeholder="Address" required></td>
-								Council Assets: <input type="text" name="councilassets_e" style="width: 100%" class="form-control" placeholder="Enter Council Assets seperated by a semicolon (';')"></td>
-						       	Neighbouring Properties: <input type="text" name="neighbours_e" style="width: 100%" class="form-control" placeholder="Enter Neighbouring Properties seperated by a semicolon (';')"></td>
-						       	Letters: <input type="text" name="letters_e" style="width: 100%" class="form-control" placeholder="Letters"></td>        
+						      	Job Number: <input type="text" name="jobnumber_e" style="width: 100%"class="form-control" placeholder="######" required autofocus>
+						      	Client: <input type="text" name="client_e" style="width: 100%" class="form-control" placeholder="Customer Name" required autofocus>
+						        Address: <input type="text" name="address_e" style="width: 100%" class="form-control" placeholder="Address" required>
+								Council Assets: <input type="text" name="councilassets_e" style="width: 100%" class="form-control" placeholder="Enter Council Assets seperated by a semicolon (';')">
+								Neighbours: <input type="text" name="neighbours_e" style="width: 100%" class="form-control" placeholder="Enter Neighbouring Properties seperated by a semicolon (';')">
+								Letters: <input type="text" name="letters_e" style="width: 100%" class="form-control" placeholder="Enter Neighbouring Properties seperated by a semicolon (';')">
 						       	Notes: <input type="text" name="notes_e" style="width: 100%" class="form-control" placeholder="Some notes on the job..."></td>
 	                        	<input type="submit" style="width:100%; height:10%;" name="finishedit" value="Finish Editing" class="btn btn-primary">
 						    </form>
@@ -306,6 +307,7 @@
 
 		$('#editModal').on('show.bs.modal', function(e) {
 		    //get data-id attribute of the clicked element
+
 		    var jobNum = $(e.relatedTarget).data('id');
 		    var client = $(e.relatedTarget).data('client');
 		    var address = $(e.relatedTarget).data('address');
@@ -320,8 +322,9 @@
 			$(e.currentTarget).find('input[name="address_e"]').val(address);
 			$(e.currentTarget).find('input[name="notes_e"]').val(notes);
 			$(e.currentTarget).find('input[name="councilassets_e"]').val(councilassets);
-			$(e.currentTarget).find('input[name="neighbours_e"]').val(neighbours);
+    		$(e.currentTarget).find('input[name="neighbours_e"]').val(neighbours);
 			$(e.currentTarget).find('input[name="letters_e"]').val(letters);
+
     	});
 	</script>
 </html>
