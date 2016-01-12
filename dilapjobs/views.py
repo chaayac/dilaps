@@ -6,7 +6,9 @@ from django.db import connection
 import geocoder
 # Create your views here.
 def index(request):
-    
+
+############################ ADD LOG ###############################
+
     if 'add_log' in request.POST:
         l = logs(
         
@@ -20,7 +22,8 @@ def index(request):
                 'jobs': job.objects.all().order_by('-status', '-timestamp'),
                 'logs': logs.objects.all().order_by('-timestamp')
             })
-
+######################################################################
+############################ COMPLETE JOB ##############################
 
     if 'complete_job' in request.POST:
         cursor = connection.cursor()
@@ -39,6 +42,9 @@ def index(request):
             'jobs': job.objects.all().order_by('-status', '-timestamp'),
             'logs': logs.objects.all().order_by('-timestamp')
         })
+
+######################################################################
+############################ FINISH JOB ##############################
 
     if 'finishedit' in request.POST:
         cursor = connection.cursor()
@@ -81,6 +87,9 @@ def index(request):
             'logs': logs.objects.all().order_by('-timestamp')
         })
 
+######################################################################
+############################ DELETE JOB ##############################
+
     if 'delete_job' in request.POST:
         
         cursor = connection.cursor()
@@ -91,32 +100,15 @@ def index(request):
             'jobs': job.objects.all().order_by('-status', '-timestamp'),
             'logs': logs.objects.all().order_by('-timestamp')
         })
+######################################################################
+############################ SEARCH JOB ##############################
 
     if 'search_val' in request.POST:
         cursor = connection.cursor()
         org_term = request.POST['search_val']
         term = '%' + org_term + '%'
         term = term.upper()
-        cursor.execute("SELECT * FROM dilapjobs_job WHERE UPPER(jobnumber) LIKE %s OR UPPER(address) LIKE %s OR UPPER(notes) LIKE %s OR UPPER(letters) LIKE %s OR UPPER(neighbours) LIKE %s OR UPPER(councilassets) LIKE %s OR UPPER(client) LIKE %s", [term, term, term, term, term, term, term])
-        rows = cursor.fetchall()
-        results = []
-        for row in rows:
-            d = {
-                    'jobnumber': row[1],
-                    'address': row[2],
-                    'timestamp': row[3],
-                    'client': row[4],
-                    'councilassets': row[5],
-                    'neighbours': row[6],
-                    'notes': row[7],
-                    'letters': row[8],
-                    'latitude': row[9],
-                    'latitude': row[10],
-                    'longitude': row[11],
-                    'postcode': row[12],
-                    'status': row[13]
-                }
-            results.append(d)
+        results = job.objects.raw("SELECT * FROM dilapjobs_job WHERE UPPER(jobnumber) LIKE %s OR UPPER(address) LIKE %s OR UPPER(notes) LIKE %s OR UPPER(letters) LIKE %s OR UPPER(neighbours) LIKE %s OR UPPER(councilassets) LIKE %s OR UPPER(client) LIKE %s", [term, term, term, term, term, term, term])
 
         return render(request, 'home.html', {
             'search': org_term,
@@ -124,6 +116,8 @@ def index(request):
             'logs': logs.objects.all().order_by('-timestamp')
         })
 
+######################################################################
+############################ CREATE JOB ##############################
 
     if 'createjob' in request.POST:
         
@@ -162,3 +156,4 @@ def index(request):
             'jobs': job.objects.all().order_by('-status', '-timestamp'),
             'logs': logs.objects.all().order_by('-timestamp')
         })
+######################################################################
