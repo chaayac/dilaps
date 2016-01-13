@@ -8,63 +8,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<title>ACE - Dilapidation Reporting</title>
-		<script language="javascript">
-			function add(type){
-				var foo = document.getElementById("fooBar");
-
-				var element = document.createElement("input");
-				
-				element.setAttribute("type", "text");
-				element.setAttribute("placeholder", "Enter Neighbouring Property");
-				element.setAttribute("name", "neighbours[]");
-				element.setAttribute("class", "form-control");
-				element.setAttribute("style", "width: 30%; margin-right: 4px");
-				
-				foo.appendChild(element);
-				count = 0;
-				while (count < 3){
-
-					var elementl = document.createElement("input");
-
-					elementl.setAttribute("type", "text");
-					elementl.setAttribute("name", "letters[]");
-					elementl.setAttribute("class", "form-control datepicker");
-					elementl.setAttribute("style", "width: 14%; margin-right: 4px");
-					elementl.setAttribute("value", "none");
-
-					foo.appendChild(elementl);
-
-
-					var sel = document.createElement("select");
-
-					sel.setAttribute("name", "letters[]");
-					sel.setAttribute("style", "margin-right: 4px")
-					
-					var option0 = document.createElement("option");
-					var option1 = document.createElement("option");
-					var option2 = document.createElement("option");
-					var option3 = document.createElement("option");
-					var option4 = document.createElement("option");
-					var option5 = document.createElement("option");
-					option0.text = ""
-					option1.text = "RM"
-					option2.text = "AP"
-					option3.text = "HD"
-					option4.text = "STR"
-					option5.text = "EMA"
-					sel.add(option0)
-					sel.add(option1)
-					sel.add(option2)
-					sel.add(option3)
-					sel.add(option4)
-					sel.add(option5)
-
-					foo.appendChild(sel);
-
-					count = count + 1;
-				}
-			}
-		</script>
 		{% load staticfiles %}
 
 		<link rel="stylesheet" href="{% static 'dilapjobs/css/bootstrap.min.css' %}" />
@@ -202,11 +145,11 @@
 						<div class="dropdown">
   							<button class="btn dropdown-toggle" style="background-color: Transparent; padding: 0; margin: 0" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
     						<span class="caret"></span>
-  							<b>{{j.jobnumber}}</b></button>
+  							<b>{{ j.jobnumber }}</b></button>
 						  	<ul class="dropdown-menu" style="min-width: 0" aria-labelledby="dropdownMenu1">
 						  		<input type="hidden" name="change" class="form-control" value="{{ j.jobnumber }}">
 							    
-							    <li><a><input type="button" data-toggle="modal" data-target="#editModal" data-letters="{{ j.letters }}" data-councilassets="{{ j.councilassets }}" data-neighbours="{{ j.neighbours }}" data-notes="{{ j.notes }}" data-address="{{ j.address }}" data-client="{{ j.client }}" data-id="{{ j.jobnumber }}" class="btn" style="width: 100; background-color: Transparent; font-size: 11px; padding: 0; margin: 0" name="edit_job" value="Edit"></a></li>
+							    <li><a><input type="button" id="{{ j.jobnumber }}" data-toggle="modal" data-target="#editModal" data-letters="{{ j.letters }}" data-councilassets="{{ j.councilassets }}" data-neighbours="{{ j.neighbours }}" data-notes="{{ j.notes }}" data-address="{{ j.address }}" data-client="{{ j.client }}" data-job="{{ j.jobnumber }}" class="btn" style="width: 100; background-color: Transparent; font-size: 11px; padding: 0; margin: 0" name="edit_job" value="Edit" onclick="fillup('{{ j.jobnumber }}')"></a></li>
 							    
 							    <li><a><input type="submit" class="btn" style="width: 100; background-color: Transparent; font-size: 11px; padding: 0; margin: 0" name="delete_job" value="Delete"></a></li>
 								
@@ -275,14 +218,14 @@
 	                    <div>
 				            <form class="form-inline" style="padding-bottom: 20px" method="POST">     
 								{% csrf_token %}
-								<input type="hidden" name="old_jobnumber_e" value="{{ j.jobnumber }}"></td>
+								<input type="hidden" name="old_jobnumber_e" value="{{ j.jobnumber }}">
 						      	Job Number: <input type="text" name="jobnumber_e" style="width: 100%"class="form-control" placeholder="######" required autofocus>
 						      	Client: <input type="text" name="client_e" style="width: 100%" class="form-control" placeholder="Customer Name" required autofocus>
 						        Address: <input type="text" name="address_e" style="width: 100%" class="form-control" placeholder="Address" required>
 								Council Assets: <input type="text" name="councilassets_e" style="width: 100%" class="form-control" placeholder="Enter Council Assets seperated by a semicolon (';')">
 								Neighbours: <input type="text" name="neighbours_e" style="width: 100%" class="form-control" placeholder="Enter Neighbouring Properties seperated by a semicolon (';')">
 								Letters: <input type="text" name="letters_e" style="width: 100%" class="form-control" placeholder="Enter Neighbouring Properties seperated by a semicolon (';')">
-						       	Notes: <input type="text" name="notes_e" style="width: 100%" class="form-control" placeholder="Some notes on the job..."></td>
+						       	Notes: <input type="text" name="notes_e" style="width: 100%" class="form-control" placeholder="Some notes on the job...">
 	                        	<input type="submit" style="width:100%; height:10%;" name="finishedit" value="Finish Editing" class="btn btn-primary">
 						    </form>
 	                    </div>
@@ -298,7 +241,7 @@
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
-	<script src="{% static 'dilapjobs/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'dilapjobs/js/bootstrap.js' %}"></script>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -336,26 +279,84 @@
     		});
 		});
 
-		$('#editModal').on('show.bs.modal', function(e) {
-		    //get data-id attribute of the clicked element
-
-		    var jobNum = $(e.relatedTarget).data('id');
-		    var client = $(e.relatedTarget).data('client');
-		    var address = $(e.relatedTarget).data('address');
-		    var notes = $(e.relatedTarget).data('notes');
-		    var councilassets = $(e.relatedTarget).data('councilassets');
-		    var neighbours = $(e.relatedTarget).data('neighbours');
-		    var letters = $(e.relatedTarget).data('letters');
-
-			$(e.currentTarget).find('input[name="jobnumber_e"]').val(jobNum);
-			$(e.currentTarget).find('input[name="old_jobnumber_e"]').val(jobNum);
-			$(e.currentTarget).find('input[name="client_e"]').val(client);
-			$(e.currentTarget).find('input[name="address_e"]').val(address);
-			$(e.currentTarget).find('input[name="notes_e"]').val(notes);
-			$(e.currentTarget).find('input[name="councilassets_e"]').val(councilassets);
-    		$(e.currentTarget).find('input[name="neighbours_e"]').val(neighbours);
-			$(e.currentTarget).find('input[name="letters_e"]').val(letters);
-
-    	});
 	</script>
+	<script language="javascript">
+			function add(type){
+				var foo = document.getElementById("fooBar");
+
+				var element = document.createElement("input");
+				
+				element.setAttribute("type", "text");
+				element.setAttribute("placeholder", "Enter Neighbouring Property");
+				element.setAttribute("name", "neighbours[]");
+				element.setAttribute("class", "form-control");
+				element.setAttribute("style", "width: 30%; margin-right: 4px");
+				
+				foo.appendChild(element);
+				count = 0;
+				while (count < 3){
+
+					var elementl = document.createElement("input");
+
+					elementl.setAttribute("type", "text");
+					elementl.setAttribute("name", "letters[]");
+					elementl.setAttribute("class", "form-control datepicker");
+					elementl.setAttribute("style", "width: 14%; margin-right: 4px");
+					elementl.setAttribute("value", "none");
+
+					foo.appendChild(elementl);
+
+
+					var sel = document.createElement("select");
+
+					sel.setAttribute("name", "letters[]");
+					sel.setAttribute("style", "margin-right: 4px")
+					
+					var option0 = document.createElement("option");
+					var option1 = document.createElement("option");
+					var option2 = document.createElement("option");
+					var option3 = document.createElement("option");
+					var option4 = document.createElement("option");
+					var option5 = document.createElement("option");
+					option0.text = ""
+					option1.text = "RM"
+					option2.text = "AP"
+					option3.text = "HD"
+					option4.text = "STR"
+					option5.text = "EMA"
+					sel.add(option0)
+					sel.add(option1)
+					sel.add(option2)
+					sel.add(option3)
+					sel.add(option4)
+					sel.add(option5)
+
+					foo.appendChild(sel);
+
+					count = count + 1;
+				}
+			}
+
+			function fillup(id){
+				var details = document.getElementById(id);
+
+				var jobNum = details.getAttribute('data-job');
+				var client = details.getAttribute('data-client');
+				var address = details.getAttribute('data-address');
+				var notes = details.getAttribute('data-notes');
+				var councilassets = details.getAttribute('data-councilassets');
+				var neighbours = details.getAttribute('data-neighbours');
+				var letters = details.getAttribute('data-letters');
+
+				document.getElementsByName("jobnumber_e")[0].setAttribute("value", jobNum);
+				document.getElementsByName("client_e")[0].setAttribute("value", client);
+				document.getElementsByName("address_e")[0].setAttribute("value", address);
+				document.getElementsByName("notes_e")[0].setAttribute("value", notes);
+				document.getElementsByName("councilassets_e")[0].setAttribute("value", councilassets);
+				document.getElementsByName("neighbours_e")[0].setAttribute("value", neighbours);
+				document.getElementsByName("letters_e")[0].setAttribute("value", letters);
+			}
+
+
+		</script>
 </html>

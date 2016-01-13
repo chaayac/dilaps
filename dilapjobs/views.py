@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from dilapjobs.models import job, logs
 from django.utils import timezone
 from django.contrib import auth
@@ -17,17 +17,17 @@ def login_user(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return index(request)
+                return HttpResponseRedirect('/')
             else:
                 return render(request, 'login.html', {
                     'res': "Not active",
                     'user': username,
                     'pass': password
-                    })
+                })
         else:
             # Return an 'invalid login' error message.
             return render(request, 'login.html', {
-                'res': "Wrong password/user",
+                'res': "Wrong password/username",
                 'user': username,
                 'pass': password
                 })
