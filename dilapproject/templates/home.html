@@ -24,7 +24,7 @@
 		<div style="float: right; margin-top: -35px; margin-right: 10px">
 			<form class="form-inline" method="POST">
 	            {% csrf_token %}
-				Logged in as: <b>{{user}}</b>.  
+				Logged in as: <b>{{ user.first_name }}</b>.  
 				<input type="submit" name="logout" class="btn" style="float:right; background-color: white; color: blue; margin-top: -7px" value="Logout">
 			</form>
 		</div>
