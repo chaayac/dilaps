@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>{{ c }}</title>
+
+		{% load staticfiles %}
+
+		<link rel="stylesheet" href="{% static 'dilapjobs/css/bootstrap.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'dilapjobs/css/bootstrap-theme.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'dilapjobs/css/signin.css' %}" />
+		<link rel="stylesheet" href="{% static 'dilapjobs/css/bootstrap.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'dilapjobs/css/bootstrap-theme.css' %}" />
+		<link rel="stylesheet" href="{% static 'dilapjobs/css/navbar.css' %}" />
+	</head>
+	<body>
+		<div class="container">
+		    <form class="form-signin" method="POST">
+		    	{% csrf_token %}
+		        <h2 class="form-signin-heading">Login</h2>
+		        <label for="username" class="sr-only">Username</label>
+		        <input type="username" name="username" class="form-control" placeholder="Username" required autofocus>
+		        <label for="password" class="sr-only">Password</label>
+		        <input type="password" name="password" class="form-control" placeholder="Password">
+		        <input type="submit" name="login" class="btn btn-lg btn-primary btn-block" value="Sign in">
+		        <input type="submit" name="recoverpassword" class="btn" style="font-size: 65%; height: 75%; width: 100%" value="Forgot your password?">
+		    </form>
+		</div> <!-- /container -->
+	</body>
+<!-- Bootstrap core JavaScript
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
+	<script src="{% static 'dilapjobs/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+</html>
