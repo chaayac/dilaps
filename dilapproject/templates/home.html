@@ -22,9 +22,6 @@
 	<!-- end header -->	
 	<body style="background-color: white">
 		<div style="float: right; margin-top: -35px; margin-right: 10px">
-			{% if user.username == "chrischaaya" %}
-			<a href="file:///W:\2015\150009\" target="_explorer.exe">Example Link</a>
-			{% endif %}
 			<form class="form-inline" method="POST">
 	            {% csrf_token %}
 				Logged in as: <b>{{ user.first_name }}</b>.  
