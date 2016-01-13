@@ -2,13 +2,48 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from dilapjobs.models import job, logs
 from django.utils import timezone
+from django.contrib import auth
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import connection
 import geocoder
 # Create your views here.
+
+def login_user(request):
+    if 'login' in request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return index(request)
+            else:
+                return render(request, 'login.html', {
+                    'res': "Not active",
+                    'user': username,
+                    'pass': password
+                    })
+        else:
+            # Return an 'invalid login' error message.
+            return render(request, 'login.html', {
+                'res': "Wrong password/user",
+                'user': username,
+                'pass': password
+                })
+    else:
+        return render(request, 'login.html')
+
+
+@login_required
 def index(request):
+############################ LOG OUT USER ###############################
+    if 'logout' in request.POST:
+        logout(request)
+        return render(request, 'login.html')
+#####################################################################
 
 ############################ ADD LOG ###############################
-
     if 'add_log' in request.POST:
         l = logs(
         

@@ -78,6 +78,13 @@
 	</head>
 	<!-- end header -->	
 	<body style="background-color: white">
+		<div style="float: right; margin-top: -35px; margin-right: 10px">
+			<form class="form-inline" method="POST">
+	            {% csrf_token %}
+				Logged in as: <b>{{user}}</b>.  
+				<input type="submit" name="logout" class="btn" style="float:right; background-color: white; color: blue; margin-top: -7px" value="Logout">
+			</form>
+		</div>
 		<div class="area"></div><nav class="main-menu">
 			<ul>
                 <li>
