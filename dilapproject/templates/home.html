@@ -218,7 +218,7 @@
 	                    <div>
 				            <form class="form-inline" style="padding-bottom: 20px" method="POST">     
 								{% csrf_token %}
-								<input type="hidden" name="old_jobnumber_e" value="{{ j.jobnumber }}">
+								<input type="hidden" name="old_jobnumber_e">
 						      	Job Number: <input type="text" name="jobnumber_e" style="width: 100%"class="form-control" placeholder="######" required autofocus>
 						      	Client: <input type="text" name="client_e" style="width: 100%" class="form-control" placeholder="Customer Name" required autofocus>
 						        Address: <input type="text" name="address_e" style="width: 100%" class="form-control" placeholder="Address" required>
@@ -348,6 +348,7 @@
 				var neighbours = details.getAttribute('data-neighbours');
 				var letters = details.getAttribute('data-letters');
 
+				document.getElementsByName("old_jobnumber_e")[0].setAttribute("value", jobNum);
 				document.getElementsByName("jobnumber_e")[0].setAttribute("value", jobNum);
 				document.getElementsByName("client_e")[0].setAttribute("value", client);
 				document.getElementsByName("address_e")[0].setAttribute("value", address);
