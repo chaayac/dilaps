@@ -118,7 +118,7 @@ def index(request):
 
         j = job(
             
-            jobnumber=request.POST['jobnumber_e'], 
+            jobnumber=request.POST['jobnumber_e'].replace(" ",""), 
             address=request.POST['address_e'],
             timestamp=timezone.now(),
             client=request.POST['client_e'],
@@ -202,7 +202,7 @@ def index(request):
 
         j = job(
             
-            jobnumber=request.POST['jobnumber'], 
+            jobnumber=request.POST['jobnumber'].replace(" ",""), 
             address=request.POST['address'],
             timestamp=timezone.now(),
             client=request.POST['client'],

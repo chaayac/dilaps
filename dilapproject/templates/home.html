@@ -72,7 +72,7 @@
 			<div class="span4 collapse" id="createjobformdiv">
 				<form id="create_form" class="form-inline" style="padding-bottom: 20px" method="POST">     
 					{% csrf_token %}   
-			      	<input type="text" name="jobnumber" style="width: 100%"class="form-control" placeholder="######" required autofocus>
+			      	<input type="text" name="jobnumber" style="width: 100%"class="form-control no-space" placeholder="Job Number" required autofocus>
 			      	<input type="text" name="client" style="width: 100%" class="form-control" placeholder="Customer Name" required autofocus>
 			        <input type="text" name="address" style="width: 100%" class="form-control" placeholder="Address" required>
 					<button type="button" class="btn btn-success" style="float:right" onclick="addC('fooBar_c')">Add CA</button>
@@ -195,7 +195,7 @@
 								{% csrf_token %}
 								<input type="hidden" name="old_jobnumber_e">
 						      	<div>
-						      	Job Number: <input type="text" name="jobnumber_e" style="width: 100%"class="form-control" placeholder="######" required>
+						      	Job Number: <input type="text" name="jobnumber_e" style="width: 100%" class="form-control no-space" placeholder="Job Number" required>
 						      	</div>
 						      	<div>
 						      	Client: <input type="text" name="client_e" style="width: 100%" class="form-control" placeholder="Customer Name" required>
@@ -423,10 +423,7 @@
 	   			$(".datepicker").each(function() {
 	        		$(this).datepicker({constrainInput: false, dateFormat: 'dd/mm/yy'});
     			});
-    			$(".jobnumber").keypress(function(key){
-    				if (key.charCode == 32) return false;
-    			});
-    			$(".jobnumber_e").keypress(function(key){
+    			$(".no-space").keypress(function(key){
     				if (key.charCode == 32) return false;
     			});
 			});
