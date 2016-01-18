@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import connection
 import geocoder
+import string
 # Create your views here.
 
 def login_user(request):
@@ -107,25 +108,25 @@ def index(request):
 
         letters = request.POST.getlist('letters_e[]')
         counter = 0
-        string = ""
+        stringb = ""
         for l in letters:
-            string += l + ' '
+            stringb += l + ' '
             counter += 1
             if (counter % 6 == 0):
-                string += '|'
+                stringb += '|'
 
-        string = string[:-1]
+        stringb = stringb[:-1]
 
         j = job(
             
             jobnumber=request.POST['jobnumber_e'].replace(" ",""), 
-            address=request.POST['address_e'],
+            address=string.capwords(request.POST['address_e']),
             timestamp=timezone.now(),
-            client=request.POST['client_e'],
+            client=string.capwords(request.POST['client_e']),
             notes=request.POST['notes_e'],
-            councilassets=council,
-            neighbours=n_string,
-            letters=string,
+            councilassets=string.capwords(council),
+            neighbours=string.capwords(n_string),
+            letters=stringb,
             latitude=locator.lat,
             longitude=locator.lng,
             postcode=locator.postal,
@@ -191,25 +192,25 @@ def index(request):
 
         letters = request.POST.getlist('letters[]')
         counter = 0
-        string = ""
+        stringb = ""
         for l in letters:
-            string += l + ' '
+            stringb += l + ' '
             counter += 1
             if (counter % 6 == 0):
-                string += '|'
+                stringb += '|'
 
-        string = string[:-1]
+        stringb = stringb[:-1]
 
         j = job(
-            
+
             jobnumber=request.POST['jobnumber'].replace(" ",""), 
-            address=request.POST['address'],
+            address=string.capwords(request.POST['address']),
             timestamp=timezone.now(),
-            client=request.POST['client'],
+            client=string.capwords(request.POST['client']),
             notes=request.POST['notes'],
-            councilassets=council,
-            neighbours=neighbours,
-            letters=string,
+            councilassets=string.capwords(council),
+            neighbours=string.capwords(neighbours),
+            letters=stringb,
             latitude=locator.lat,
             longitude=locator.lng,
             postcode=locator.postal,
