@@ -75,39 +75,9 @@
 			      	<input type="text" name="jobnumber" style="width: 100%"class="form-control" placeholder="######" required autofocus>
 			      	<input type="text" name="client" style="width: 100%" class="form-control" placeholder="Customer Name" required autofocus>
 			        <input type="text" name="address" style="width: 100%" class="form-control" placeholder="Address" required>
-					<input type="text" name="councilassets[]" style="width: 90%" class="form-control" placeholder="Enter Council Asset">
-					<button type="button" class="btn btn-success" style="float:right" onclick="addC('fooBar_c')">Add More</button>
+					<button type="button" class="btn btn-success" style="float:right" onclick="addC('fooBar_c')">Add CA</button>
 					<span id="fooBar_c">&nbsp;</span>
-			       	<input type="text" name="neighbours[]" style="width: 30%" class="form-control" placeholder="Enter Neighbouring Property">
-			       	
-			       	<input type="text" name="letters[]" style="width: 14%" class="form-control datepicker" value="none">
-					<select name="letters[]">
-					   	<option value=""></option>
-					   	<option value="RM">RM</option>
-						<option value="AP">AP</option>
-						<option value="HD">HD</option>
-						<option value="STR">STR</option>
-						<option value="EMA">EMA</option>
-					</select>
-			       	<input type="text" name="letters[]" style="width: 14%" class="form-control datepicker" value="none">
-					<select name="letters[]">
-					   	<option value=""></option>
-					   	<option value="RM">RM</option>
-						<option value="AP">AP</option>
-						<option value="HD">HD</option>	
-						<option value="STR">STR</option>
-						<option value="EMA">EMA</option>						
-					</select>
-			       	<input type="text" name="letters[]" style="width: 14%" class="form-control datepicker" value="none">
-					<select name="letters[]">
-						<option value=""></option>
-					   	<option value="RM">RM</option>
-						<option value="AP">AP</option>
-						<option value="HD">HD</option>
-						<option value="STR">STR</option>
-						<option value="EMA">EMA</option>							
-					</select>
-			       	<button type="button" class="btn btn-success" style="float:right" onclick="add('fooBar')">Add More</button>
+			       	<button type="button" class="btn btn-success" style="float:right" onclick="add('fooBar')">Add NP</button>
 					<span id="fooBar">&nbsp;</span>
 			       	<input type="text" name="notes" style="width: 100%" class="form-control" placeholder="Some notes on the job...">
 			       	<input type="submit" name="createjob" style="width: 100%" class="btn btn-primary" value="Add Job">
@@ -197,8 +167,8 @@
 								<th>Letters</th>
 							</thead>
 			        		<tr>
-						        <td>{% for c in j.getCouncilAssets %}<div>{{c|safe}}</div>{% endfor %}</td>
-							    <td>{% for n in j.getNeighbours %}<div style="background-color: {% cycle 'lightblue' 'white' %} ">{{n|safe}}</div>{% endfor %}</td>
+						        <td>{% for c in j.getCouncilAssets %}<div>{{c}}</div>{% endfor %}</td>
+							    <td>{% for n in j.getNeighbours %}<div style="background-color: {% cycle 'lightblue' 'white' %} ">{{n}}</div>{% endfor %}</td>
 								<td>{% for l in j.getLetters %}<div style="background-color: {% cycle 'lightblue' 'white' %} ">{{l}}</div>{% endfor %}</td>
 							</tr>
 						</table>
