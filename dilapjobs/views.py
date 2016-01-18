@@ -114,6 +114,8 @@ def index(request):
             if (counter % 6 == 0):
                 string += '|'
 
+        string = string[:-1]
+
         j = job(
             
             jobnumber=request.POST['jobnumber_e'], 
@@ -195,6 +197,8 @@ def index(request):
             counter += 1
             if (counter % 6 == 0):
                 string += '|'
+
+        string = string[:-1]
 
         j = job(
             
