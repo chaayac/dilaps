@@ -62,6 +62,7 @@ def index(request):
 
     if 'complete_job' in request.POST:
         cursor = connection.cursor()
+
         cursor.execute("UPDATE dilapjobs_job SET timestamp = %s WHERE jobnumber = %s", [timezone.now(), request.POST['change']])
 
         cursor.execute("SELECT * FROM dilapjobs_job WHERE jobnumber = %s", [request.POST['change']])
@@ -82,10 +83,20 @@ def index(request):
 ############################ EDIT JOB ##############################
 
     if 'finishedit' in request.POST:
+
         cursor = connection.cursor()
 
         cursor.execute("DELETE FROM dilapjobs_job WHERE jobnumber = %s", [request.POST['old_jobnumber_e']])
         
+        num_results = job.objects.filter(jobnumber = request.POST['jobnumber_e']).count()
+
+        if (num_results != 0):
+            return render(request, 'home.html', {
+                'jobs': job.objects.all().order_by('-status', '-timestamp'),
+                'logs': logs.objects.all().order_by('-timestamp'),
+                'error': "This job already exists. Try again with a different job number."
+                })
+
         locator = geocoder.google(request.POST['address_e'] + ", Australia")
 
         councilassets = request.POST.getlist('councilassets_e[]')
@@ -159,6 +170,15 @@ def index(request):
 
     if 'createjob' in request.POST:
         
+        num_results = job.objects.filter(jobnumber = request.POST['jobnumber']).count()
+
+        if (num_results != 0):
+            return render(request, 'home.html', {
+                'jobs': job.objects.all().order_by('-status', '-timestamp'),
+                'logs': logs.objects.all().order_by('-timestamp'),
+                'error': "This job already exists. Try again with a different job number."
+                })
+       
         locator = geocoder.google(request.POST['address'] + ", Australia")
         
         councilassets = request.POST.getlist('councilassets[]')

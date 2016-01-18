@@ -60,6 +60,9 @@
 				<p style="font-size: 20px"><b>A</b>ustralian <b>C</b>onsulting <b>E</b>ngineers</p>
 			</center>
 			<center style="padding-bottom: 15px">Dilapidation Department</center>
+			{% if error %}
+			<div class="alert alert-danger"><center><b>Uh oh!</b> {{ error }}</center></div>
+			{% endif %}
 			<form class="form-inline" method="POST" style="padding-bottom: 20px">
 				{% csrf_token %}
 		        <input type="text" name="search_val" class="form-control" style="width:93%" placeholder="Search for anything..." autofocus>
@@ -67,7 +70,7 @@
 		    </form>
 			<button class="btn btn-info" style="width: 100%" data-toggle="collapse" data-target="#createjobformdiv">Create Job &#9660;</button>
 			<div class="span4 collapse" id="createjobformdiv">
-				<form class="form-inline" style="padding-bottom: 20px" method="POST">     
+				<form id="create_form" class="form-inline" style="padding-bottom: 20px" method="POST">     
 					{% csrf_token %}   
 			      	<input type="text" name="jobnumber" style="width: 100%"class="form-control" placeholder="######" required autofocus>
 			      	<input type="text" name="client" style="width: 100%" class="form-control" placeholder="Customer Name" required autofocus>
@@ -218,7 +221,7 @@
 	            <div class="modal-body">
 	                <form role="editjob" method="POST" style="padding-bottom: 20px">
 	                    <div>
-				            <form class="form-inline" style="padding-bottom: 20px" method="POST">     
+				            <form id="edit_form" class="form-inline" style="padding-bottom: 20px" method="POST">     
 								{% csrf_token %}
 								<input type="hidden" name="old_jobnumber_e">
 						      	<div>
