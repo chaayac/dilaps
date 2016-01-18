@@ -89,10 +89,10 @@
 			</div>
 			{% endif %}
 			<table class="table" style="table-layout: fixed; margin: 0; padding-top: 20px">
-			    <col width="9" />
-			    <col width="22" />
-			    <col width="22" />
-			    <col width="44" />
+			    <col width="10" />
+			    <col width="29" />
+			    <col width="29" />
+			    <col width="29" />
 			    <thead>
 					<tr>
 						<th>Job</th>
@@ -105,10 +105,10 @@
 <!-- this part needs to be repeatable -->
 			{% for j in jobs %}
 			<table class="table" style="table-layout:fixed; margin: 0">
-			    <col width="9" />
-			    <col width="22" />
-			    <col width="22" />
-			    <col width="44" />
+			    <col width="10" />
+			    <col width="29" />
+			    <col width="29" />
+			    <col width="29" />
 			    {% if j.status == "Complete" %}
 					<tr data-toggle="collapse" data-target="#viewdetails{{j.jobnumber}}" style="background-color: #90EE90">
 				{% else %}
