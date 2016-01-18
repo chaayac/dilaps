@@ -355,7 +355,7 @@
 					count = count + 1;
 		   			
 		   			$(".datepicker").each(function() {
-		        		$(this).datepicker({constrainInput: false});
+		        		$(this).datepicker({constrainInput: false, dateFormat: 'dd-mm-yy'});
 	    			});
 				}
 			}
@@ -448,7 +448,13 @@
 		<script>
 			$(document).ready(function(){
 	   			$(".datepicker").each(function() {
-	        		$(this).datepicker({constrainInput: false});
+	        		$(this).datepicker({constrainInput: false, dateFormat: 'dd-mm-yy'});
+    			});
+    			$(".jobnumber").keypress(function(key){
+    				if (key.charCode == 32) return false;
+    			});
+    			$(".jobnumber_e").keypress(function(key){
+    				if (key.charCode == 32) return false;
     			});
 			});
 		</script>
