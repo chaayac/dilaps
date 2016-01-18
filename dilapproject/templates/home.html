@@ -72,7 +72,9 @@
 			      	<input type="text" name="jobnumber" style="width: 100%"class="form-control" placeholder="######" required autofocus>
 			      	<input type="text" name="client" style="width: 100%" class="form-control" placeholder="Customer Name" required autofocus>
 			        <input type="text" name="address" style="width: 100%" class="form-control" placeholder="Address" required>
-					<input type="text" name="councilassets" style="width: 100%" class="form-control" placeholder="Enter Council Assets seperated by a semicolon (';')">
+					<input type="text" name="councilassets[]" style="width: 90%" class="form-control" placeholder="Enter Council Asset">
+					<button type="button" class="btn btn-success" style="float:right" onclick="addC('fooBar_c')">Add More</button>
+					<span id="fooBar_c">&nbsp;</span>
 			       	<input type="text" name="neighbours[]" style="width: 30%" class="form-control" placeholder="Enter Neighbouring Property">
 			       	
 			       	<input type="text" name="letters[]" style="width: 14%" class="form-control datepicker" value="none">
@@ -102,7 +104,7 @@
 						<option value="STR">STR</option>
 						<option value="EMA">EMA</option>							
 					</select>
-			       	<button type="button" class="btn btn-success" style="float:right" onclick="add(fooBar)">Add More</button>
+			       	<button type="button" class="btn btn-success" style="float:right" onclick="add('fooBar')">Add More</button>
 					<span id="fooBar">&nbsp;</span>
 			       	<input type="text" name="notes" style="width: 100%" class="form-control" placeholder="Some notes on the job...">
 			       	<input type="submit" name="createjob" style="width: 100%" class="btn btn-primary" value="Add Job">
@@ -192,8 +194,8 @@
 								<th>Letters</th>
 							</thead>
 			        		<tr>
-						        <td>{% for c in j.getCouncilAssets %}<div>{{c}}</div>{% endfor %}</td>
-							    <td>{% for n in j.getNeighbours %}<div style="background-color: {% cycle 'lightblue' 'white' %} ">{{n}}</div>{% endfor %}</td>
+						        <td>{% for c in j.getCouncilAssets %}<div>{{c|safe}}</div>{% endfor %}</td>
+							    <td>{% for n in j.getNeighbours %}<div style="background-color: {% cycle 'lightblue' 'white' %} ">{{n|safe}}</div>{% endfor %}</td>
 								<td>{% for l in j.getLetters %}<div style="background-color: {% cycle 'lightblue' 'white' %} ">{{l}}</div>{% endfor %}</td>
 							</tr>
 						</table>
@@ -219,14 +221,29 @@
 				            <form class="form-inline" style="padding-bottom: 20px" method="POST">     
 								{% csrf_token %}
 								<input type="hidden" name="old_jobnumber_e">
-						      	Job Number: <input type="text" name="jobnumber_e" style="width: 100%"class="form-control" placeholder="######" required autofocus>
-						      	Client: <input type="text" name="client_e" style="width: 100%" class="form-control" placeholder="Customer Name" required autofocus>
+						      	<div>
+						      	Job Number: <input type="text" name="jobnumber_e" style="width: 100%"class="form-control" placeholder="######" required>
+						      	</div>
+						      	<div>
+						      	Client: <input type="text" name="client_e" style="width: 100%" class="form-control" placeholder="Customer Name" required>
+						        </div>
+						        <div>
 						        Address: <input type="text" name="address_e" style="width: 100%" class="form-control" placeholder="Address" required>
-								Council Assets: <input type="text" name="councilassets_e" style="width: 100%" class="form-control" placeholder="Enter Council Assets seperated by a semicolon (';')">
-								Neighbours: <input type="text" name="neighbours_e" style="width: 100%" class="form-control" placeholder="Enter Neighbouring Properties seperated by a semicolon (';')">
-								Letters: <input type="text" name="letters_e" style="width: 100%" class="form-control" placeholder="Enter Neighbouring Properties seperated by a semicolon (';')">
-						       	Notes: <input type="text" name="notes_e" style="width: 100%" class="form-control" placeholder="Some notes on the job...">
-	                        	<input type="submit" style="width:100%; height:10%;" name="finishedit" value="Finish Editing" class="btn btn-primary">
+								</div>
+								<div>
+									Council Assets:
+									<span id="fooBar_ce">&nbsp;</span>
+									<button type="button" class="btn btn-success" style="width:100%; float:right" onclick="addC('fooBar_ce')">Add CA</button>
+								</div>
+								<div>
+									Neighbours:
+									<span id="fooBar_e">&nbsp;</span>
+								</div>
+						       	<button type="button" class="btn btn-success" style="width: 100%" onclick="add('fooBar_e')">Add NP</button>
+						       	<div>
+						       		Notes: <input type="text" name="notes_e" style="width: 100%" class="form-control" placeholder="Some notes on the job...">
+	                        		<input type="submit" style="width:100%; height:10%;" name="finishedit" value="Finish Editing" class="btn btn-primary">
+	                        	</div>
 						    </form>
 	                    </div>
 	                </form>
@@ -237,14 +254,6 @@
 	        </div>
 	    </div>
     </div>
-	<!-- Bootstrap core JavaScript
-	================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
-	<script src="{% static 'dilapjobs/js/bootstrap.js' %}"></script>
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 	<script>
 		$('.row .btn').on('click', function(e) {
 	    e.preventDefault();
@@ -272,26 +281,25 @@
 	            $this.append(this);
 	        });
 	    });
-
-	    $(document).ready(function(){
-   			$(".datepicker").each(function() {
-        		$(this).datepicker();
-    		});
-		});
-
 	</script>
 	<script language="javascript">
 			function add(type){
-				var foo = document.getElementById("fooBar");
+				var foo = document.getElementById(type);
 
 				var element = document.createElement("input");
 				
 				element.setAttribute("type", "text");
 				element.setAttribute("placeholder", "Enter Neighbouring Property");
-				element.setAttribute("name", "neighbours[]");
-				element.setAttribute("class", "form-control");
-				element.setAttribute("style", "width: 30%; margin-right: 4px");
 				
+				if (type == "fooBar_e"){
+					element.setAttribute("name", "neighbours_e[]");
+					element.setAttribute("style", "width: 100%");
+				} else {
+					element.setAttribute("name", "neighbours[]");
+					element.setAttribute("style", "width: 30%; margin-right: 4px");
+				}
+				element.setAttribute("class", "form-control");
+
 				foo.appendChild(element);
 				count = 0;
 				while (count < 3){
@@ -299,9 +307,14 @@
 					var elementl = document.createElement("input");
 
 					elementl.setAttribute("type", "text");
-					elementl.setAttribute("name", "letters[]");
+					if (type == "fooBar_e"){
+						elementl.setAttribute("name", "letters_e[]");
+						elementl.setAttribute("style", "width: 20%; float: left");
+					} else {
+						elementl.setAttribute("name", "letters[]");
+						elementl.setAttribute("style", "width: 14%; margin-right: 4px");
+					}
 					elementl.setAttribute("class", "form-control datepicker");
-					elementl.setAttribute("style", "width: 14%; margin-right: 4px");
 					elementl.setAttribute("value", "none");
 
 					foo.appendChild(elementl);
@@ -309,8 +322,14 @@
 
 					var sel = document.createElement("select");
 
-					sel.setAttribute("name", "letters[]");
-					sel.setAttribute("style", "margin-right: 4px")
+					if (type == "fooBar_e"){
+						sel.setAttribute("name", "letters_e[]");
+						sel.setAttribute("style", "float: left");
+					} else {
+						sel.setAttribute("name", "letters[]");
+						sel.setAttribute("style", "margin-right: 4px")
+					}
+
 					
 					var option0 = document.createElement("option");
 					var option1 = document.createElement("option");
@@ -334,7 +353,30 @@
 					foo.appendChild(sel);
 
 					count = count + 1;
+		   			
+		   			$(".datepicker").each(function() {
+		        		$(this).datepicker();
+	    			});
 				}
+			}
+
+			function addC(type){
+				var foo = document.getElementById(type);
+
+				var element = document.createElement("input");
+				
+				element.setAttribute("type", "text");
+				element.setAttribute("placeholder", "Enter Council Asset");
+				
+				if (type == "fooBar_ce"){
+					element.setAttribute("name", "councilassets_e[]");
+					element.setAttribute("style", "width: 100%");
+				} else {
+					element.setAttribute("name", "councilassets[]");
+					element.setAttribute("style", "width: 90%");
+				}
+				element.setAttribute("class", "form-control");
+				foo.appendChild(element);
 			}
 
 			function fillup(id){
@@ -353,11 +395,61 @@
 				document.getElementsByName("client_e")[0].setAttribute("value", client);
 				document.getElementsByName("address_e")[0].setAttribute("value", address);
 				document.getElementsByName("notes_e")[0].setAttribute("value", notes);
-				document.getElementsByName("councilassets_e")[0].setAttribute("value", councilassets);
-				document.getElementsByName("neighbours_e")[0].setAttribute("value", neighbours);
-				document.getElementsByName("letters_e")[0].setAttribute("value", letters);
+
+				//////////////////				
+				var councilassets_a = councilassets.split('|');
+				var tmpc = document.getElementsByName("councilassets_e[]").length;
+				while (tmpc < councilassets_a.length){
+					addC('fooBar_ce');
+					tmpc = tmpc + 1;
+				}
+				var t = 0;
+				while (t < councilassets_a.length){
+					document.getElementsByName("councilassets_e[]")[t].setAttribute("value", councilassets_a[t]);
+					t = t + 1;
+				}
+				/////////////////
+
+				////////////////
+				var letters_a1 = letters.split('|');
+				var neighbours_a = neighbours.split('|');
+				
+				var tmp = document.getElementsByName("neighbours_e[]").length;
+				while (tmp < neighbours_a.length){
+					add('fooBar_e');
+					tmp = tmp + 1;
+				}
+				var i = 0;
+				var l = 0;
+				while (i < neighbours_a.length){
+					var letters_a = letters_a1[i].split(" ");
+					document.getElementsByName("neighbours_e[]")[i].setAttribute("value", neighbours_a[i]);
+					
+					document.getElementsByName("letters_e[]")[l].setAttribute("value", letters_a[0]);
+					document.getElementsByName("letters_e[]")[l+1].value = letters_a[1];
+					document.getElementsByName("letters_e[]")[l+2].setAttribute("value", letters_a[2]);
+					document.getElementsByName("letters_e[]")[l+3].value = letters_a[3];
+					document.getElementsByName("letters_e[]")[l+4].setAttribute("value", letters_a[4]);
+					document.getElementsByName("letters_e[]")[l+5].value = letters_a[5];
+					i = i + 1;
+					l = l + 6;
+				}
+				///////////////
 			}
-
-
+		</script>
+		<!-- Bootstrap core JavaScript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
+		<script src="{% static 'dilapjobs/js/bootstrap.js' %}"></script>
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+		<script>
+			$(document).ready(function(){
+	   			$(".datepicker").each(function() {
+	        		$(this).datepicker();
+    			});
+			});
 		</script>
 </html>

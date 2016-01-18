@@ -88,17 +88,20 @@ def index(request):
         
         locator = geocoder.google(request.POST['address_e'] + ", Australia")
 
-        neighbours = request.POST['neighbours_e']
+        councilassets = request.POST.getlist('councilassets_e[]')
+        council = '|'.join(councilassets)
 
-        letters = request.POST['letters_e']
-        string = letters
-        # counter = 0
-        # string = ""
-        # for l in letters:
-        #     string += l + ' '
-        #     counter += 1
-        #     if (counter % 6 == 0):
-        #         string += ';'
+        neighbours = request.POST.getlist('neighbours_e[]')
+        n_string = '|'.join(neighbours)
+
+        letters = request.POST.getlist('letters_e[]')
+        counter = 0
+        string = ""
+        for l in letters:
+            string += l + ' '
+            counter += 1
+            if (counter % 6 == 0):
+                string += '|'
 
         j = job(
             
@@ -107,8 +110,8 @@ def index(request):
             timestamp=timezone.now(),
             client=request.POST['client_e'],
             notes=request.POST['notes_e'],
-            councilassets=request.POST['councilassets_e'],
-            neighbours=neighbours,
+            councilassets=council,
+            neighbours=n_string,
             letters=string,
             latitude=locator.lat,
             longitude=locator.lng,
@@ -158,8 +161,11 @@ def index(request):
         
         locator = geocoder.google(request.POST['address'] + ", Australia")
         
+        councilassets = request.POST.getlist('councilassets[]')
+        council = '|'.join(councilassets)
+
         neighbours = request.POST.getlist('neighbours[]')
-        neighbours = ';'.join(neighbours)
+        neighbours = '|'.join(neighbours)
 
         letters = request.POST.getlist('letters[]')
         counter = 0
@@ -168,7 +174,7 @@ def index(request):
             string += l + ' '
             counter += 1
             if (counter % 6 == 0):
-                string += ';'
+                string += '|'
 
         j = job(
             
@@ -177,7 +183,7 @@ def index(request):
             timestamp=timezone.now(),
             client=request.POST['client'],
             notes=request.POST['notes'],
-            councilassets=request.POST['councilassets'],
+            councilassets=council,
             neighbours=neighbours,
             letters=string,
             latitude=locator.lat,
