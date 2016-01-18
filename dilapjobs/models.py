@@ -12,7 +12,6 @@ class job(models.Model):
 	councilassets = models.TextField(null=True)
 	neighbours = models.TextField(null=True)
 	letters = models.TextField(default='', null=True)
-	img = models.TextField(default='', null=True)
 
 	latitude = models.TextField(default='', null=True)
 	longitude = models.TextField(default='', null=True)
