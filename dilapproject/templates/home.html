@@ -355,7 +355,7 @@
 					count = count + 1;
 		   			
 		   			$(".datepicker").each(function() {
-		        		$(this).datepicker();
+		        		$(this).datepicker({constrainInput: false});
 	    			});
 				}
 			}
@@ -448,7 +448,7 @@
 		<script>
 			$(document).ready(function(){
 	   			$(".datepicker").each(function() {
-	        		$(this).datepicker();
+	        		$(this).datepicker({constrainInput: false});
     			});
 			});
 		</script>
