@@ -6,7 +6,7 @@ from django.contrib import auth
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import connection
-from django.core.mail import send_mail
+# from django.core.mail import send_mail
 import geocoder
 import string
 # Create your views here.
@@ -28,7 +28,7 @@ def login_user(request):
                 })
         else:
             # Return an 'invalid login' error message.
-            send_mail('Subject here', 'Here is the message. eh rng', 'chaayac@gmail.com', ['chaayac01@gmail.com'], fail_silently=False)
+            # send_mail('Subject here', 'Here is the message. eh rng', 'chaayac@gmail.com', ['chaayac01@gmail.com'], fail_silently=False)
             return render(request, 'login.html', {
                 'res': "Wrong password/username",
                 })
