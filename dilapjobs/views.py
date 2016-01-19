@@ -11,7 +11,10 @@ import string
 # Create your views here.
 
 def login_user(request):
-    if 'login' in request.POST:
+    if 'login' not in request.POST:
+        return render(request, 'login.html')
+        
+    if request.POST:
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
@@ -21,16 +24,12 @@ def login_user(request):
                 return HttpResponseRedirect('/')
             else:
                 return render(request, 'login.html', {
-                    'res': "Not active",
-                    'user': username,
-                    'pass': password
+                    'res': "Your account is disabled.",
                 })
         else:
             # Return an 'invalid login' error message.
             return render(request, 'login.html', {
                 'res': "Wrong password/username",
-                'user': username,
-                'pass': password
                 })
     else:
         return render(request, 'login.html')
