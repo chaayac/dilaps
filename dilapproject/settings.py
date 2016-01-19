@@ -69,7 +69,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'dilapproject.wsgi.application'
 
-LOGIN_URL = '/login/'
+LOGIN_URL = ''
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
