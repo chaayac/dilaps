@@ -83,7 +83,7 @@ def index(request):
 ######################################################################
 ############################ EDIT JOB ##############################
 
-    if 'jobnumber_e' in request.POST:
+    if 'old_jobnumber_e' in request.POST:
 
         cursor = connection.cursor()
 
