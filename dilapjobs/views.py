@@ -81,14 +81,15 @@ def index(request):
 ######################################################################
 ############################ EDIT JOB ##############################
 
-    if 'finishedit' in request.POST:
+    if 'jobnumber_e' in request.POST:
 
         cursor = connection.cursor()
 
         cursor.execute("DELETE FROM dilapjobs_job WHERE jobnumber = %s", [request.POST['old_jobnumber_e']])
         
-        num_results = job.objects.filter(jobnumber = request.POST['jobnumber_e']).count()
+        jobnumber=request.POST['jobnumber_e'].replace(" ", "")
 
+        num_results = job.objects.filter(jobnumber = jobnumber).count()
         if (num_results != 0):
             return render(request, 'home.html', {
                 'jobs': job.objects.all().order_by('-status', '-timestamp'),
@@ -117,7 +118,7 @@ def index(request):
 
         j = job(
             
-            jobnumber=request.POST['jobnumber_e'].replace(" ",""), 
+            jobnumber=jobnumber, 
             address=string.capwords(request.POST['address_e']),
             timestamp=timezone.now(),
             client=string.capwords(request.POST['client_e']),
@@ -169,10 +170,10 @@ def index(request):
 ######################################################################
 ############################ CREATE JOB ##############################
 
-    if 'createjob' in request.POST:
+    if 'jobnumber' in request.POST:
         
         num_results = job.objects.filter(jobnumber = request.POST['jobnumber']).count()
-
+        jobnumber = request.POST['jobnumber'].replace(" ", "")
         if (num_results != 0):
             return render(request, 'home.html', {
                 'jobs': job.objects.all().order_by('-status', '-timestamp'),
@@ -201,7 +202,7 @@ def index(request):
 
         j = job(
 
-            jobnumber=request.POST['jobnumber'].replace(" ",""), 
+            jobnumber=jobnumber, 
             address=string.capwords(request.POST['address']),
             timestamp=timezone.now(),
             client=string.capwords(request.POST['client']),
