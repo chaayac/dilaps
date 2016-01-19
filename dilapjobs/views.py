@@ -11,6 +11,8 @@ import string
 # Create your views here.
 
 def login_user(request):
+    if 'login' not in request.POST:
+        return render(request, 'login.html')
     if request.POST:
         username = request.POST['username']
         password = request.POST['password']
