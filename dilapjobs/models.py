@@ -28,6 +28,13 @@ class job(models.Model):
 		return self.letters.split('|')
 	def getCouncilAssets(self):
 		return self.councilassets.split('|')
+	def getNotes(self):
+		if (len(self.notes.split('|')) == 2):
+			return self.notes.split('|')[1]
+		else:
+			return ''
+	def getUser(self):
+		return self.notes.split('|')[0]
 
 
 class logs(models.Model):

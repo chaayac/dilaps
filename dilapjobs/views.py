@@ -90,7 +90,7 @@ def index(request):
         
         jobnumber=request.POST['jobnumber_e'].replace(" ", "")
 
-        num_results = job.objects.filter(jobnumber = jobnumber).count()
+        num_results = job.objects.filter(jobnumber__iexact = jobnumber).count()
         if (num_results != 0):
             return render(request, 'home.html', {
                 'jobs': job.objects.all().order_by('-status', '-timestamp'),
@@ -123,7 +123,7 @@ def index(request):
             address=string.capwords(request.POST['address_e']),
             timestamp=timezone.now(),
             client=string.capwords(request.POST['client_e']),
-            notes=request.POST['notes_e'],
+            notes=request.user.first_name + '|' + request.POST['notes_e'],
             councilassets=string.capwords(council),
             neighbours=string.capwords(n_string),
             letters=stringb,
@@ -173,7 +173,7 @@ def index(request):
 
     if 'jobnumber' in request.POST:
         
-        num_results = job.objects.filter(jobnumber = request.POST['jobnumber']).count()
+        num_results = job.objects.filter(jobnumber__iexact = request.POST['jobnumber']).count()
         jobnumber = request.POST['jobnumber'].replace(" ", "")
         if (num_results != 0):
             return render(request, 'home.html', {
@@ -207,7 +207,7 @@ def index(request):
             address=string.capwords(request.POST['address']),
             timestamp=timezone.now(),
             client=string.capwords(request.POST['client']),
-            notes=request.POST['notes'],
+            notes=request.user.first_name + '|' + request.POST['notes'],
             councilassets=string.capwords(council),
             neighbours=string.capwords(neighbours),
             letters=stringb,

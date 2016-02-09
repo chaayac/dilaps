@@ -28,6 +28,7 @@
 				<input type="submit" name="logout" class="btn" style="float:right; background-color: white; color: blue; margin-top: -7px" value="Logout">
 			</form>
 		</div>
+		{% if user.first_name == "Christopher" and user.last_name == "Chaaya" %}
 		<div class="area"></div><nav class="main-menu">
 			<ul>
                 <li>
@@ -53,6 +54,7 @@
 	       		</ul>
 	       	{% endfor %}
         </nav>
+        {% endif %}
 
 		<div class="container" style="background-color: rgba(255,255,255,0.8)">
 			<center style="padding-top: 0px">
@@ -75,9 +77,13 @@
 			      	<input type="text" name="jobnumber" style="width: 100%"class="form-control no-space" placeholder="Job Number" required autofocus>
 			      	<input type="text" name="client" style="width: 100%" class="form-control" placeholder="Customer Name" required autofocus>
 			        <input type="text" name="address" style="width: 100%" class="form-control" placeholder="Address" required>
-					<button type="button" class="btn btn-success" style="float:right" onclick="addC('fooBar_c')">Add CA</button>
+					<center>
+						<button type="button" class="btn btn-success" style="width:100%" onclick="addC('fooBar_c')">Add CA</button>
+					</center>
 					<span id="fooBar_c">&nbsp;</span>
-			       	<button type="button" class="btn btn-success" style="float:right" onclick="add('fooBar')">Add NP</button>
+					<center>
+				       	<button type="button" class="btn btn-success" style="width:100%" onclick="add('fooBar')">Add NP</button>
+					</center>
 					<span id="fooBar">&nbsp;</span>
 			       	<input type="text" name="notes" style="width: 100%" class="form-control" placeholder="Some notes on the job...">
 			       	<input type="submit" id="oneclick" name="createjob" style="width: 100%" class="btn btn-primary" value="Add Job">
@@ -124,7 +130,7 @@
 						  	<ul class="dropdown-menu" style="min-width: 0" aria-labelledby="dropdownMenu1">
 						  		<input type="hidden" name="change" class="form-control" value="{{ j.jobnumber }}">
 							    
-							    <li><a><input type="button" id="{{ j.jobnumber }}" data-toggle="modal" data-target="#editModal" data-letters="{{ j.letters }}" data-councilassets="{{ j.councilassets }}" data-neighbours="{{ j.neighbours }}" data-notes="{{ j.notes }}" data-address="{{ j.address }}" data-client="{{ j.client }}" data-job="{{ j.jobnumber }}" class="btn" style="width: 100; background-color: Transparent; font-size: 11px; padding: 0; margin: 0" name="edit_job" value="Edit" onclick="fillup('{{ j.jobnumber }}')"></a></li>
+							    <li><a><input type="button" id="{{ j.jobnumber }}" data-toggle="modal" data-target="#editModal" data-letters="{{ j.letters }}" data-councilassets="{{ j.councilassets }}" data-neighbours="{{ j.neighbours }}" data-notes="{{ j.getNotes }}" data-address="{{ j.address }}" data-client="{{ j.client }}" data-job="{{ j.jobnumber }}" class="btn" style="width: 100; background-color: Transparent; font-size: 11px; padding: 0; margin: 0" name="edit_job" value="Edit" onclick="fillup('{{ j.jobnumber }}')"></a></li>
 							    
 							    <li><a><input type="submit" class="btn" style="width: 100; background-color: Transparent; font-size: 11px; padding: 0; margin: 0" name="delete_job" value="Delete"></a></li>
 								
@@ -145,7 +151,7 @@
 			        		{{ j.address }}
 			        	{% endif %}
 			        </td>
-			        <td>{{j.notes}}</td> 
+			        <td>{{j.getNotes}}</td> 
 			    </tr>
 		    </table>
 
@@ -157,9 +163,9 @@
 				    		<col width="33" />
 				    		<col width="33" />
 				    		{% if j.status == "Complete" %}
-								<p><span style="float:left"><i>Completed on {{j.timestamp}}</i></span></p>
+								<p><span style="float:left"><i>Completed on {{j.timestamp}} by {{j.getUser}}</i></span></p>
 							{% else %}
-								<p><span style="float:left"><i>Last Modified on {{j.timestamp}}</i></span></p>
+								<p><span style="float:left"><i>Last Modified on {{j.timestamp}} by {{j.getUser}}</i></span></p>
 							{% endif %}
 							<thead>
 								<th>Council Assets</th>
@@ -220,7 +226,7 @@
                     </div>
 	            </div>
 	            <div class="modal-footer">
-	            	<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+	            	<button type="button" class="btn btn-default cust-close" data-dismiss="modal">Cancel</button>
 	            </div>
 	        </div>
 	    </div>
@@ -301,7 +307,6 @@
 						sel.setAttribute("style", "margin-right: 4px")
 					}
 
-					
 					var option0 = document.createElement("option");
 					var option1 = document.createElement("option");
 					var option2 = document.createElement("option");
