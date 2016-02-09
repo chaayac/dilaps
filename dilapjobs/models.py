@@ -21,7 +21,7 @@ class job(models.Model):
 
 	def __str__(self):
 		return self.jobnumber
-
+		
 	def getNeighbours(self):
 		return self.neighbours.split('|')
 	def getLetters(self):

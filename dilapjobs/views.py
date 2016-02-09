@@ -54,7 +54,7 @@ def index(request):
         l.save()
 
         return render(request, 'home.html', {
-                'jobs': job.objects.all().order_by('-status', '-timestamp'),
+                'jobs': job.objects.all().order_by('-status', '-jobnumber'),
                 'logs': logs.objects.all().order_by('-timestamp')
             })
 ######################################################################
@@ -75,7 +75,7 @@ def index(request):
                 cursor.execute("UPDATE dilapjobs_job SET status = 'Complete' WHERE jobnumber = %s", [request.POST['change']])            
         
         return render(request, 'home.html', {
-            'jobs': job.objects.all().order_by('-status', '-timestamp'),
+            'jobs': job.objects.all().order_by('-status', '-jobnumber'),
             'logs': logs.objects.all().order_by('-timestamp')
         })
 
@@ -93,7 +93,7 @@ def index(request):
         num_results = job.objects.filter(jobnumber__iexact = jobnumber).count()
         if (num_results != 0):
             return render(request, 'home.html', {
-                'jobs': job.objects.all().order_by('-status', '-timestamp'),
+                'jobs': job.objects.all().order_by('-status', '-jobnumber'),
                 'logs': logs.objects.all().order_by('-timestamp'),
                 'error': "This job already exists. Try again with a different job number."
                 })
@@ -135,7 +135,7 @@ def index(request):
         j.save()
 
         return render(request, 'home.html', {
-            'jobs': job.objects.all().order_by('-status', '-timestamp'),
+            'jobs': job.objects.all().order_by('-status', '-jobnumber'),
             'logs': logs.objects.all().order_by('-timestamp')
         })
 
@@ -149,7 +149,7 @@ def index(request):
         cursor.execute("DELETE FROM dilapjobs_job WHERE jobnumber = %s", [request.POST['change']])
         
         return render(request, 'home.html', {
-            'jobs': job.objects.all().order_by('-status', '-timestamp'),
+            'jobs': job.objects.all().order_by('-status', '-jobnumber'),
             'logs': logs.objects.all().order_by('-timestamp')
         })
 ######################################################################
@@ -219,7 +219,7 @@ def index(request):
         j.save()
 
     return render(request, 'home.html', {
-            'jobs': job.objects.all().order_by('-status', '-timestamp'),
+            'jobs': job.objects.all().order_by('-status', '-jobnumber'),
             'logs': logs.objects.all().order_by('-timestamp')
         })
 ######################################################################
