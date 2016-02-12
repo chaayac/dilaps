@@ -388,16 +388,21 @@
 
 				////////////////
 				var letters_a1 = letters.split('|');
-				var neighbours_a = neighbours.split('|');
+				if (neighbours == ""){
+					len = 0;
+				} else {
+					var neighbours_a = neighbours.split('|');
+					len = neighbours_a.length;
+				}
 				
 				var tmp = document.getElementsByName("neighbours_e[]").length;
-				while (tmp < neighbours_a.length){
+				while (tmp < len){
 					add('fooBar_e');
 					tmp = tmp + 1;
 				}
 				var i = 0;
 				var l = 0;
-				while (i < neighbours_a.length){
+				while (i < len){
 					var letters_a = letters_a1[i].split(" ");
 					document.getElementsByName("neighbours_e[]")[i].setAttribute("value", neighbours_a[i]);
 					
