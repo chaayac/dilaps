@@ -72,6 +72,8 @@
 		        <input type="text" name="search_val" class="form-control" style="width:93%" placeholder="Search for anything..." autofocus>
 		        <input type="submit" name="search_btn" class="btn" style="float:right; background-color: black; color: white" value="Search">
 		    </form>
+
+			{% if perms.dilapjobs.add_job %}
 			<button class="btn btn-info" style="width: 100%" data-toggle="collapse" data-target="#createjobformdiv">Create Job &#9660;</button>
 			<div class="span4 collapse" id="createjobformdiv">
 				<form id="create_form" class="form-inline" style="padding-bottom: 20px" method="POST">     
@@ -91,6 +93,8 @@
 			       	<input type="submit" id="oneclick" name="createjob" style="width: 100%" class="btn btn-primary" value="Add Job">
 			    </form>
 		    </div>
+		    {% endif %}
+
 			{% if search %}
 			<div style="padding-top: 20px">
 				<b>Search results for '{{ search }}'...</b>
@@ -123,6 +127,7 @@
 					<tr data-toggle="collapse" data-target="#viewdetails{{j.jobnumber}}">
 				{% endif %}
 			        <td>
+			        {% if perms.dilapjobs.edit_job %}
 			        <form method="POST" style="form-inline">
 			        	{% csrf_token %}        
 						<div class="dropdown">
@@ -144,6 +149,9 @@
 						  	</ul>
 						</div>	
 					</form>
+					{% else %}
+					<b>{{ j.jobnumber }}</b>
+					{% endif %}
 			        </td>
 			        <td>{{j.client}}</td>
 			        <td>
@@ -188,6 +196,7 @@
 
 		</div> <!-- /container -->
 	</body>
+	{% if perms.dilapjobs.edit_job %}
 	<div id="editModal" class="modal fade" role="dialog">
 	    <div class="modal-dialog">
 	        <!-- Modal content-->
@@ -233,6 +242,7 @@
 	        </div>
 	    </div>
     </div>
+    {% endif %}
 	<!-- Bootstrap core JavaScript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
