@@ -1,6 +1,6 @@
 dj-database-url==0.3.0
 Django==1.8.3
-geocoder==1.6.4
+geocoder==1.8.1
 gunicorn==19.4.1
 postgres==2.2.1
 psycopg2==2.6.1
