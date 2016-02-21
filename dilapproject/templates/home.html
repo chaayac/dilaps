@@ -127,7 +127,7 @@
 					<tr data-toggle="collapse" data-target="#viewdetails{{j.jobnumber}}">
 				{% endif %}
 			        <td>
-			        {% if perms.dilapjobs.edit_job %}
+			        {% if perms.dilapjobs.change_job %}
 			        <form method="POST" style="form-inline">
 			        	{% csrf_token %}        
 						<div class="dropdown">
@@ -196,7 +196,7 @@
 
 		</div> <!-- /container -->
 	</body>
-	{% if perms.dilapjobs.edit_job %}
+	{% if perms.dilapjobs.change_job %}
 	<div id="editModal" class="modal fade" role="dialog">
 	    <div class="modal-dialog">
 	        <!-- Modal content-->
