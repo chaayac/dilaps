@@ -173,7 +173,7 @@ function fillup(id){
 	while (i < len){
 		var letters_a = letters_combined_a[i].split(" ");
 		document.getElementsByName("neighbours_e[]")[i].setAttribute("value", neighbours_a[i]);
-		
+
 		document.getElementsByName("letters_e[]")[l].setAttribute("value", letters_a[0]);
 		document.getElementsByName("letters_e[]")[l+1].value = letters_a[1];
 		document.getElementsByName("letters_e[]")[l+2].setAttribute("value", letters_a[2]);
