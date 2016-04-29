@@ -244,27 +244,27 @@ def getOutdatedLetters():
         if j.status != 'Complete':
             neighbour_counter = 0
             letters_per_neighbour = j.letters.split('|')
-            for l in letters_per_neighbour:
-                if 'replied' not in l:
-                    letter_dates = format.findall(l)
-                    if len(letter_dates) == 1:
-                        day_month_year = letter_dates[0]
-                        date = datetime.datetime.strptime(day_month_year, '%d/%m/%Y')
-                        if date + datetime.timedelta(days=14) < today:
-                            outdated.append({
-                                'jobnumber': j.jobnumber,
-                                'neighbour': j.neighbours.split('|')[neighbour_counter],
-                                'letter': 2
-                                })
-                    elif len(letter_dates) == 2:
-                        day_month_year = letter_dates[1]
-                        date = datetime.datetime.strptime(day_month_year, '%d/%m/%Y')
-                        if date + datetime.timedelta(days=10) < today:
-                            outdated.append({
-                                'jobnumber': j.jobnumber,
-                                'neighbour': j.neighbours.split('|')[neighbour_counter],
-                                'letter': 3
-                                })
-
+            if '(done)' not in j.neighbours.split('|')[neighbour_counter]:
+                for l in letters_per_neighbour:
+                    if 'replied' not in l:
+                        letter_dates = format.findall(l)
+                        if len(letter_dates) == 1:
+                            day_month_year = letter_dates[0]
+                            date = datetime.datetime.strptime(day_month_year, '%d/%m/%Y')
+                            if date + datetime.timedelta(days=14) < today:
+                                outdated.append({
+                                    'jobnumber': j.jobnumber,
+                                    'neighbour': j.neighbours.split('|')[neighbour_counter],
+                                    'letter': 2
+                                    })
+                        elif len(letter_dates) == 2:
+                            day_month_year = letter_dates[1]
+                            date = datetime.datetime.strptime(day_month_year, '%d/%m/%Y')
+                            if date + datetime.timedelta(days=10) < today:
+                                outdated.append({
+                                    'jobnumber': j.jobnumber,
+                                    'neighbour': j.neighbours.split('|')[neighbour_counter],
+                                    'letter': 3
+                                    })
             neighbour_counter += 1
     return outdated
