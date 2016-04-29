@@ -30,6 +30,12 @@
 				<input type="submit" name="logout" class="btn" style="float:right; background-color: white; color: blue; margin-top: -7px" value="Logout">
 			</form>
 		</div>
+		{% if outdated %}
+		<div style="float:left; margin-top: -35px;">
+		<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#lettersModal">There are outdated letters</button>
+<!-- 			{{outdated}}
+ -->		</div>
+		{% endif %}
 		{% if user.first_name == "Christopher" and user.last_name == "Chaaya" %}
 		<div class="area"></div><nav class="main-menu">
 			<ul>
@@ -72,7 +78,6 @@
 		        <input type="text" name="search_val" class="form-control" style="width:93%" placeholder="Search for anything..." autofocus>
 		        <input type="submit" name="search_btn" class="btn" style="float:right; background-color: black; color: white" value="Search">
 		    </form>
-
 			{% if perms.dilapjobs.add_job %}
 			<button class="btn btn-info" style="width: 100%" data-toggle="collapse" data-target="#createjobformdiv">Create Job &#9660;</button>
 			<div class="span4 collapse" id="createjobformdiv">
@@ -238,6 +243,39 @@
 	            </div>
 	            <div class="modal-footer">
 	            	<button type="button" class="btn btn-default cust-close" data-dismiss="modal">Cancel</button>
+	            </div>
+	        </div>
+	    </div>
+    </div>
+    {% endif %}
+    {% if outdated %}
+    <div id="lettersModal" class="modal fade" role="dialog">
+	    <div class="modal-dialog">
+	        <!-- Modal content-->
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal">&times;</button>
+	                <h4 class="modal-title">Outdated Letters</h4>
+	            </div>
+	            <div class="modal-body">
+					<table class="table table-striped">
+						<thead>
+				    		<tr>
+						        <th>Job number</th>
+						        <th>Neighbour</th>
+						        <th>Letter #</th>
+				     		</tr>
+				    	</thead>
+				    	<tbody>
+				    		{% for l in outdated %}
+				      		<tr>
+				        		<td>{{l.jobnumber}}</td>
+				        		<td>{{l.neighbour}}</td>
+				        		<td>{{l.letter}}</td>
+				      		</tr>
+				      		{% endfor %}
+				    	</tbody>
+				 	</table>
 	            </div>
 	        </div>
 	    </div>

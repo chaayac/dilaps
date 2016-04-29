@@ -8,7 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.db import connection
 from django.core.mail import EmailMessage
 import geocoder
-import string
+import string, re
+import datetime
 # Create your views here.
 
 def login_user(request):
@@ -55,7 +56,8 @@ def index(request):
 
         return render(request, 'home.html', {
                 'jobs': job.objects.all().order_by('-status', '-jobnumber'),
-                'logs': logs.objects.all().order_by('-timestamp')
+                'logs': logs.objects.all().order_by('-timestamp'),
+                'outdated': getOutdatedLetters()
             })
 ######################################################################
 ############################ COMPLETE JOB ##############################
@@ -76,7 +78,8 @@ def index(request):
         
         return render(request, 'home.html', {
             'jobs': job.objects.all().order_by('-status', '-jobnumber'),
-            'logs': logs.objects.all().order_by('-timestamp')
+            'logs': logs.objects.all().order_by('-timestamp'),
+            'outdated': getOutdatedLetters()
         })
 
 ######################################################################
@@ -95,7 +98,8 @@ def index(request):
             return render(request, 'home.html', {
                 'jobs': job.objects.all().order_by('-status', '-jobnumber'),
                 'logs': logs.objects.all().order_by('-timestamp'),
-                'error': "This job already exists. Try again with a different job number."
+                'error': "This job already exists. Try again with a different job number.",
+                'outdated': getOutdatedLetters()
                 })
 
         locator = geocoder.google(request.POST['address_e'] + ", Australia")
@@ -136,7 +140,9 @@ def index(request):
 
         return render(request, 'home.html', {
             'jobs': job.objects.all().order_by('-status', '-jobnumber'),
-            'logs': logs.objects.all().order_by('-timestamp')
+            'logs': logs.objects.all().order_by('-timestamp'),
+            'outdated': getOutdatedLetters()
+
         })
 
 ######################################################################
@@ -150,7 +156,8 @@ def index(request):
         
         return render(request, 'home.html', {
             'jobs': job.objects.all().order_by('-status', '-jobnumber'),
-            'logs': logs.objects.all().order_by('-timestamp')
+            'logs': logs.objects.all().order_by('-timestamp'),
+            'outdated': getOutdatedLetters()
         })
 ######################################################################
 ############################ SEARCH JOB ##############################
@@ -165,7 +172,8 @@ def index(request):
         return render(request, 'home.html', {
             'search': org_term,
             'jobs': results,
-            'logs': logs.objects.all().order_by('-timestamp')
+            'logs': logs.objects.all().order_by('-timestamp'),
+            'outdated': getOutdatedLetters()
         })
 
 ######################################################################
@@ -179,7 +187,8 @@ def index(request):
             return render(request, 'home.html', {
                 'jobs': job.objects.all().order_by('-status', '-timestamp'),
                 'logs': logs.objects.all().order_by('-timestamp'),
-                'error': "This job already exists. Try again with a different job number."
+                'error': "This job already exists. Try again with a different job number.",
+                'outdated': getOutdatedLetters()
                 })
        
         locator = geocoder.google(request.POST['address'] + ", Australia")
@@ -218,8 +227,44 @@ def index(request):
 
         j.save()
 
+    # else
     return render(request, 'home.html', {
             'jobs': job.objects.all().order_by('-status', '-jobnumber'),
-            'logs': logs.objects.all().order_by('-timestamp')
+            'logs': logs.objects.all().order_by('-timestamp'),
+            'outdated': getOutdatedLetters()
         })
 ######################################################################
+
+def getOutdatedLetters():
+    outdated = []
+    format = re.compile('(\d+/\d+/\d+)')
+    today = datetime.datetime.now()
+    jobs = job.objects.all()
+    for j in jobs:
+        if j.status != 'Complete':
+            neighbour_counter = 0
+            letters_per_neighbour = j.letters.split('|')
+            for l in letters_per_neighbour:
+                if 'replied' not in l:
+                    letter_dates = format.findall(l)
+                    if len(letter_dates) == 1:
+                        day_month_year = letter_dates[0]
+                        date = datetime.datetime.strptime(day_month_year, '%d/%m/%Y')
+                        if date + datetime.timedelta(days=14) < today:
+                            outdated.append({
+                                'jobnumber': j.jobnumber,
+                                'neighbour': j.neighbours.split('|')[neighbour_counter],
+                                'letter': 2
+                                })
+                    elif len(letter_dates) == 2:
+                        day_month_year = letter_dates[1]
+                        date = datetime.datetime.strptime(day_month_year, '%d/%m/%Y')
+                        if date + datetime.timedelta(days=10) < today:
+                            outdated.append({
+                                'jobnumber': j.jobnumber,
+                                'neighbour': j.neighbours.split('|')[neighbour_counter],
+                                'letter': 3
+                                })
+
+            neighbour_counter += 1
+    return outdated
