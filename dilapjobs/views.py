@@ -55,7 +55,7 @@ def index(request):
         l.save()
 
         return render(request, 'home.html', {
-                'jobs': job.objects.all().order_by('-status', '-jobnumber'),
+                'jobs': job.objects.all().order_by('-status', '-timestamp'),
                 'logs': logs.objects.all().order_by('-timestamp'),
                 'outdated': getOutdatedLetters()
             })
@@ -77,7 +77,7 @@ def index(request):
                 cursor.execute("UPDATE dilapjobs_job SET status = 'Complete' WHERE jobnumber = %s", [request.POST['change']])            
         
         return render(request, 'home.html', {
-            'jobs': job.objects.all().order_by('-status', '-jobnumber'),
+            'jobs': job.objects.all().order_by('-status', '-timestamp'),
             'logs': logs.objects.all().order_by('-timestamp'),
             'outdated': getOutdatedLetters()
         })
@@ -96,7 +96,7 @@ def index(request):
         num_results = job.objects.filter(jobnumber__iexact = jobnumber).count()
         if (num_results != 0):
             return render(request, 'home.html', {
-                'jobs': job.objects.all().order_by('-status', '-jobnumber'),
+                'jobs': job.objects.all().order_by('-status', '-timestamp'),
                 'logs': logs.objects.all().order_by('-timestamp'),
                 'error': "This job already exists. Try again with a different job number.",
                 'outdated': getOutdatedLetters()
@@ -139,7 +139,7 @@ def index(request):
         j.save()
 
         return render(request, 'home.html', {
-            'jobs': job.objects.all().order_by('-status', '-jobnumber'),
+            'jobs': job.objects.all().order_by('-status', '-timestamp'),
             'logs': logs.objects.all().order_by('-timestamp'),
             'outdated': getOutdatedLetters()
 
@@ -155,7 +155,7 @@ def index(request):
         cursor.execute("DELETE FROM dilapjobs_job WHERE jobnumber = %s", [request.POST['change']])
         
         return render(request, 'home.html', {
-            'jobs': job.objects.all().order_by('-status', '-jobnumber'),
+            'jobs': job.objects.all().order_by('-status', '-timestamp'),
             'logs': logs.objects.all().order_by('-timestamp'),
             'outdated': getOutdatedLetters()
         })
@@ -229,7 +229,7 @@ def index(request):
 
     # else
     return render(request, 'home.html', {
-            'jobs': job.objects.all().order_by('-status', '-jobnumber'),
+            'jobs': job.objects.all().order_by('-status', '-timestamp'),
             'logs': logs.objects.all().order_by('-timestamp'),
             'outdated': getOutdatedLetters()
         })
