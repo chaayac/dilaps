@@ -266,5 +266,5 @@ def getOutdatedLetters():
                                     'neighbour': j.neighbours.split('|')[neighbour_counter],
                                     'letter': 3
                                     })
-            neighbour_counter += 1
+                    neighbour_counter += 1
     return outdated
