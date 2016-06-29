@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from dilapjobs.models import job, logs
 from django.utils import timezone
 from django.contrib import auth
@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import connection
 from django.core.mail import EmailMessage
 import geocoder
-import string, re
+import string, re, json
 import datetime
 # Create your views here.
 
@@ -268,3 +268,27 @@ def getOutdatedLetters():
                                     })
                     neighbour_counter += 1
     return outdated
+
+def getJobs(request):
+    jobs = job.objects.all()
+    toreturn = []
+    for j in jobs:
+        if j.status != 'Complete':
+            j = {
+                'letters': j.letters.split('|'),
+                'neighbours': j.neighbours.split('|'), ##
+                'councilassets': j.councilassets.split('|'), ##
+                'jobnumber': j.jobnumber, 
+                'address': string.capwords(j.address),
+                'timestamp': (j.timestamp),
+                'client': string.capwords(j.client),
+                'notes': request.user.first_name + '|' + j.notes,
+                'councilassets': string.capwords(j.councilassets), ##
+                'neighbours': string.capwords(j.neighbours), ##
+                'latitude': j.latitude,
+                'longitude': j.longitude,
+                'postcode': j.postcode,
+            }
+        toreturn.append(j)
+    response = JsonResponse(toreturn, safe=False)
+    return response
