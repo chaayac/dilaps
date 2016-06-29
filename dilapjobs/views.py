@@ -289,6 +289,6 @@ def getJobs(request):
                 'longitude': j.longitude,
                 'postcode': j.postcode,
             }
-        toreturn.append(j)
+            toreturn.append(j)
     response = JsonResponse(toreturn, safe=False)
     return response
