@@ -174,7 +174,7 @@ def index(request):
 
         return render(request, 'home.html', {
             'search': org_term,
-            'jobs': results,
+            'complete_jobs': results,
             'logs': logs.objects.all().order_by('-timestamp'),
             'outdated': getOutdatedLetters()
         })
