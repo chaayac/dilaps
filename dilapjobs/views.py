@@ -172,9 +172,19 @@ def index(request):
         term = term.upper()
         results = job.objects.raw("SELECT * FROM dilapjobs_job WHERE UPPER(jobnumber) LIKE %s OR UPPER(address) LIKE %s OR UPPER(notes) LIKE %s OR UPPER(letters) LIKE %s OR UPPER(neighbours) LIKE %s OR UPPER(councilassets) LIKE %s OR UPPER(client) LIKE %s", [term, term, term, term, term, term, term])
 
+        complete_jobs = []
+        incomplete_jobs = []
+        
+        for r in results:
+            if r.status == 'Complete':
+                complete_jobs.append(r)
+            else:
+                incomplete_jobs.append(r)
+
         return render(request, 'home.html', {
             'search': org_term,
-            'complete_jobs': results,
+            'complete_jobs': complete_jobs,
+            'incomplete_jobs': incomplete_jobs,
             'logs': logs.objects.all().order_by('-timestamp'),
             'outdated': getOutdatedLetters()
         })
