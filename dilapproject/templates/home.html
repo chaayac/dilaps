@@ -119,18 +119,14 @@
 					</tr>
 			    </thead>
 		    </table>
-<!-- this part needs to be repeatable -->
-			{% for j in jobs %}
+<!-- this part needs to be repeatable (for incomplete jobs)-->
+			{% for j in incomplete_jobs %}
 			<table class="table" style="table-layout:fixed; margin: 0">
 			    <col width="10" />
 			    <col width="29" />
 			    <col width="29" />
 			    <col width="29" />
-			    {% if j.status == "Complete" %}
-					<tr data-toggle="collapse" data-target="#viewdetails{{j.jobnumber}}" style="background-color: #90EE90">
-				{% else %}
-					<tr data-toggle="collapse" data-target="#viewdetails{{j.jobnumber}}">
-				{% endif %}
+				<tr data-toggle="collapse" data-target="#viewdetails{{j.jobnumber}}">
 			        <td>
 			        {% if perms.dilapjobs.change_job %}
 			        <form method="POST" style="form-inline">
@@ -146,12 +142,8 @@
 							    
 							    <li><a><input type="submit" class="btn" style="width: 100; background-color: Transparent; font-size: 11px; padding: 0; margin: 0" name="delete_job" value="Delete"></a></li>
 								
-								{% if j.status == "Complete" %}
-									<li><a><input type="submit" class="btn" style="width: 100; background-color: Transparent; font-size: 11px; padding: 0; margin: 0" name="complete_job" value="Revoke Completion"></a></li>
-						  		{% else %}
-									<li><a><input type="submit" class="btn" style="width: 100; background-color: Transparent; font-size: 11px; padding: 0; margin: 0" name="complete_job" value="Complete"></a></li>
-								{% endif %}
-						  	</ul>
+								<li><a><input type="submit" class="btn" style="width: 100; background-color: Transparent; font-size: 11px; padding: 0; margin: 0" name="complete_job" value="Complete"></a></li>
+							</ul>
 						</div>	
 					</form>
 					{% else %}
@@ -198,7 +190,77 @@
 		    </div>
 		    {% endfor %}
 <!-- end repeatable part -->
+<!-- repeat for complete jobs -->
+			{% for j in complete_jobs %}
+			<table class="table" style="table-layout:fixed; margin: 0">
+			    <col width="10" />
+			    <col width="29" />
+			    <col width="29" />
+			    <col width="29" />
+				<tr data-toggle="collapse" data-target="#viewdetails{{j.jobnumber}}" style="background-color: #90EE90">
+			        <td>
+			        {% if perms.dilapjobs.change_job %}
+			        <form method="POST" style="form-inline">
+			        	{% csrf_token %}        
+						<div class="dropdown">
+								<button class="btn dropdown-toggle" style="background-color: Transparent; padding: 0; margin: 0" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							<span class="caret"></span>
+								<b>{{ j.jobnumber }}</b></button>
+						  	<ul class="dropdown-menu" style="min-width: 0" aria-labelledby="dropdownMenu1">
+						  		<input type="hidden" name="change" class="form-control" value="{{ j.jobnumber }}">
+							    
+							    <li><a><input type="button" id="{{ j.jobnumber }}" data-toggle="modal" data-target="#editModal" data-letters="{{ j.letters }}" data-councilassets="{{ j.councilassets }}" data-neighbours="{{ j.neighbours }}" data-notes="{{ j.getNotes }}" data-address="{{ j.address }}" data-client="{{ j.client }}" data-job="{{ j.jobnumber }}" class="btn" style="width: 100; background-color: Transparent; font-size: 11px; padding: 0; margin: 0" name="edit_job" value="Edit" onclick="fillup('{{ j.jobnumber }}')"></a></li>
+							    
+							    <li><a><input type="submit" class="btn" style="width: 100; background-color: Transparent; font-size: 11px; padding: 0; margin: 0" name="delete_job" value="Delete"></a></li>
+								
+								<input type="submit" class="btn" style="width: 100; background-color: Transparent; font-size: 11px; padding: 0; margin: 0" name="complete_job" value="Revoke Completion"></a></li>
+						  	</ul>
+						</div>	
+					</form>
+					{% else %}
+					<b>{{ j.jobnumber }}</b>
+					{% endif %}
+			        </td>
+			        <td>{{j.client}}</td>
+			        <td>
+			        	{% if j.latitude %}
+			        		<a target="_blank" href="http://maps.googleapis.com/maps/api/staticmap?center={{ j.latitude }},{{ j.longitude }}&size=600x600&zoom=18&sensor=false&maptype=satellite">{{j.address}} {{j.postcode}}</a>
+			        	{% else %}
+			        		{{ j.address }}
+			        	{% endif %}
+			        </td>
+			        <td>{{j.getNotes}}</td> 
+		    	</tr>
+		    </table>
 
+		    <div class="container">
+			    <div class="span4 collapse-group">
+			        <div class="collapse" style="margin:0" id="viewdetails{{j.jobnumber}}">
+			        	<table class="table" id="tableX">
+				        	<col width="33" />
+				    		<col width="33" />
+				    		<col width="33" />
+				    		{% if j.status == "Complete" %}
+								<p><span style="float:left"><i>Completed on {{j.timestamp}} by <b>{{j.getUser}}</b></i></span><span style="float:right"><i>Created on {{j.created}}</i></span></p>
+							{% else %}
+								<p><span style="float:left"><i>Last Modified on {{j.timestamp}} by <b>{{j.getUser}}</b></i></span><span style="float:right"><i>Created on {{j.created}}</i></span></p>
+							{% endif %}
+							<thead>
+								<th>Council Assets</th>
+								<th>Neighbouring Properties</th>
+								<th>Letters</th>
+							</thead>
+			        		<tr>
+						        <td>{% for c in j.getCouncilAssets %}<div>{{c}}</div>{% endfor %}</td>
+							    <td>{% for n in j.getNeighbours %}<div style="background-color: {% cycle 'lightblue' 'white' %} ">{{n}}</div>{% endfor %}</td>
+								<td>{% for l in j.getLetters %}<div style="background-color: {% cycle 'lightblue' 'white' %} ">{{l}}</div>{% endfor %}</td>
+							</tr>
+						</table>
+			    	</div>
+			    </div>
+		    </div>
+		    {% endfor %}
+<!-- end repeatable part -->
 		</div> <!-- /container -->
 	</body>
 	{% if perms.dilapjobs.change_job %}
