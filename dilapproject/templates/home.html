@@ -178,9 +178,9 @@
 				    		<col width="33" />
 				    		<col width="33" />
 				    		{% if j.status == "Complete" %}
-								<p><span style="float:left"><i>Completed on {{j.timestamp}} by <b>{{j.getUser}}</b></i></span></p>
+								<p><span style="float:left"><i>Completed on {{j.timestamp}} by <b>{{j.getUser}}</b></i></span><span style="float:right"><i>Created on {{j.created}}</i></span></p>
 							{% else %}
-								<p><span style="float:left"><i>Last Modified on {{j.timestamp}} by <b>{{j.getUser}}</b></i></span></p>
+								<p><span style="float:left"><i>Last Modified on {{j.timestamp}} by <b>{{j.getUser}}</b></i></span><span style="float:right"><i>Created on {{j.created}}</i></span></p>
 							{% endif %}
 							<thead>
 								<th>Council Assets</th>

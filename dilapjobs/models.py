@@ -6,6 +6,7 @@ class job(models.Model):
 	jobnumber = models.TextField()
 	address = models.TextField()
 	timestamp = models.DateTimeField()
+	created = models.DateTimeField()
 	client = models.TextField(null=True)
 	notes = models.TextField(null=True)
 
