@@ -72,7 +72,7 @@ def index(request):
         rows = cursor.fetchall()
         
         for row in rows:
-            if row[13] == 'Complete':
+            if row[12] == 'Complete':
                 cursor.execute("UPDATE dilapjobs_job SET status = 'Incomplete' WHERE jobnumber = %s", [request.POST['change']])
             else:
                 cursor.execute("UPDATE dilapjobs_job SET status = 'Complete' WHERE jobnumber = %s", [request.POST['change']])            
